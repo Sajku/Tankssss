@@ -2,6 +2,7 @@
 #include <SFML\Graphics.hpp>
 #include "Ball.h"
 #include "tank.h"
+#include "explosion.h"
 #include <fstream>
 #define M_PI 3.14159265358979323846
 
@@ -85,8 +86,10 @@ int main() {
 	Tank tankLeft(150, 550, Vector2f(100, 55), 1000, 100, true, &tankTexture1);
 	Tank tankRight(1050, 550, Vector2f(100, 55), 1000, 100, false, &tankTexture1);
 
-	Texture explosionTexture1;
-	explosionTexture1.loadFromFile("explosion1.png");
+	Texture explosionTexture;
+	explosionTexture.loadFromFile("explosion1.png");
+	Explosion explosion(&explosionTexture);
+
 	/*RectangleShape explosion1;
 	explosion1.setSize(Vector2f(100,100));
 	explosion1.setTexture(&explosionTexture1);
@@ -110,11 +113,6 @@ int main() {
 			surface.setTextureRect(IntRect(i * 8, 500 - map[i], 8, map[i]));
 			window.draw(surface);
 		}
-
-		//line[0].position = Vector2f(ball.getX() + (ball.getR() / 2), ball.getY() + (ball.getR() / 2));
-		//line[1].position = Vector2f(mousePos.x, mousePos.y);
-		//line[0].color = Color::Black;
-		//line[1].color = Color::Black;
 		position1 = Vector2f(ball.getX() + (ball.getR() / 2), ball.getY() + (ball.getR() / 2));
 		position2 = Vector2f(mousePos.x, mousePos.y);;
 
@@ -147,29 +145,34 @@ int main() {
 			if (po.x <= 1280 && po.x >=0) {
 				if (map[stripeNumber] >= (720 - ball.getY())) {
 
-					if (stripeNumber - 7 >= 0) map[stripeNumber - 7] -= 2;
-					if (stripeNumber - 6 >= 0) map[stripeNumber - 6] -= 10;
-					if (stripeNumber - 5 >= 0) map[stripeNumber - 5] -= 20;
-					if (stripeNumber - 4 >= 0) map[stripeNumber - 4] -= 28;
-					if (stripeNumber - 3 >= 0) map[stripeNumber - 3] -= 35;
-					if (stripeNumber - 2 >= 0) map[stripeNumber - 2] -= 40;
-					if (stripeNumber - 1 >= 0) map[stripeNumber - 1] -= 42;
+					if (stripeNumber - 7 >= 0 && map[stripeNumber - 7] < 720) map[stripeNumber - 7] -= 2;
+					if (stripeNumber - 6 >= 0 && map[stripeNumber - 6] < 720) map[stripeNumber - 6] -= 10;
+					if (stripeNumber - 5 >= 0 && map[stripeNumber - 5] < 720) map[stripeNumber - 5] -= 20;
+					if (stripeNumber - 4 >= 0 && map[stripeNumber - 4] < 720) map[stripeNumber - 4] -= 28;
+					if (stripeNumber - 3 >= 0 && map[stripeNumber - 3] < 720) map[stripeNumber - 3] -= 35;
+					if (stripeNumber - 2 >= 0 && map[stripeNumber - 2] < 720) map[stripeNumber - 2] -= 40;
+					if (stripeNumber - 1 >= 0 && map[stripeNumber - 1] < 720) map[stripeNumber - 1] -= 42;
 					map[stripeNumber] -= 44;
-					if (stripeNumber + 1 <= 159) map[stripeNumber + 1] -= 42;
-					if (stripeNumber + 2 <= 159) map[stripeNumber + 2] -= 40;
-					if (stripeNumber + 3 <= 159) map[stripeNumber + 3] -= 35;
-					if (stripeNumber + 4 <= 159) map[stripeNumber + 4] -= 28;
-					if (stripeNumber + 5 <= 159) map[stripeNumber + 5] -= 20;
-					if (stripeNumber + 6 <= 159) map[stripeNumber + 6] -= 10;
-					if (stripeNumber + 7 <= 159) map[stripeNumber + 7] -= 2;
+					if (stripeNumber + 1 <= 159 && map[stripeNumber + 1] < 720) map[stripeNumber + 1] -= 42;
+					if (stripeNumber + 2 <= 159 && map[stripeNumber + 2] < 720) map[stripeNumber + 2] -= 40;
+					if (stripeNumber + 3 <= 159 && map[stripeNumber + 3] < 720) map[stripeNumber + 3] -= 35;
+					if (stripeNumber + 4 <= 159 && map[stripeNumber + 4] < 720) map[stripeNumber + 4] -= 28;
+					if (stripeNumber + 5 <= 159 && map[stripeNumber + 5] < 720) map[stripeNumber + 5] -= 20;
+					if (stripeNumber + 6 <= 159 && map[stripeNumber + 6] < 720) map[stripeNumber + 6] -= 10;
+					if (stripeNumber + 7 <= 159 && map[stripeNumber + 7] < 720) map[stripeNumber + 7] -= 2;
 
-					//explosion1.setPosition(stripeNumber*8, 676-map[stripeNumber]);
-					//window.draw(explosion1);
+					if (po.y-50 < 720)
+						explosion.boom(po.x-50, po.y-50);
+					else
+						explosion.boom(po.x - 50,  680);
 
 					cout << "\nCollision";
 					shoot = false;
 					time = 0;
 					ball.setY(720 - map[18] - 20);
+					if (ball.getY() > 720) {
+						ball.setY(720);
+					}
 					ball.setX(150);
 					ball.Update();
 				}
@@ -203,6 +206,7 @@ int main() {
 		
 		mousePos = Mouse::getPosition(window);
 		ball.Draw(window);
+		explosion.Draw(window);
 		tankLeft.Update(720 - map[18] - 25);
 		tankRight.Update(720 - map[130] - 25);
 		tankLeft.Draw(window);
