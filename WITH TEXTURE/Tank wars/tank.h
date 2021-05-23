@@ -7,10 +7,12 @@ using namespace std;
 class Tank
 {
 public:
-	Tank(int x, int y, Vector2f size, int hp, int dmg, bool side, Texture* texture);
+	Tank(int x, int y, Vector2f size, int hp, int dmg, bool side, Texture* texture, Texture* texture2);
 	~Tank();
 	void Draw(RenderWindow& window);
 	void Update(int newX);
+	void updateGun(double angle);
+	int getY();
 
 private:
 	int posX;
@@ -19,5 +21,6 @@ private:
 	int damage;
 	bool onLeft;
 	RectangleShape body;
+	RectangleShape gun;
 };
 

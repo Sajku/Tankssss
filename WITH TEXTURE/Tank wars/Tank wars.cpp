@@ -42,6 +42,7 @@ int main() {
 	bool mapChanged = true;
 	int stripeNumber = 0;
 	double currentAngle = 0;
+	int whoHasMove = 0;
 
 	Vector2f position1;
 	Vector2f position2;
@@ -64,7 +65,7 @@ int main() {
 	window.setMouseCursorVisible(false);
 
 	Vector2i mousePos = Mouse::getPosition(window);
-	Ball ball(150, 580, 13);
+	Ball ball(140, 580, 13);
 	RectangleShape surface;
 	surface.setSize(Vector2f(8, 360));
 	//surface.setFillColor(Color(25, 137, 8));
@@ -73,21 +74,23 @@ int main() {
 	Texture arrowTexture;
 	arrow.setSize(Vector2f(100, 50));
 	arrow.setOrigin(95,25);
-	arrowTexture.loadFromFile("arrow.png");
+	arrowTexture.loadFromFile("textures/arrow.png");
 	arrowTexture.setSmooth(true);
 	arrow.setTexture(&arrowTexture);
 
 	Texture surfaceTexture;
-	surfaceTexture.loadFromFile("grass1.jpg");
+	surfaceTexture.loadFromFile("textures/grass1.jpg");
 	surface.setTexture(&surfaceTexture);
 
-	Texture tankTexture1;
-	tankTexture1.loadFromFile("tank1.png");
-	Tank tankLeft(150, 550, Vector2f(100, 55), 1000, 100, true, &tankTexture1);
-	Tank tankRight(1050, 550, Vector2f(100, 55), 1000, 100, false, &tankTexture1);
+	Texture tankTexture1a;
+	Texture tankTexture1b;
+	tankTexture1a.loadFromFile("textures/tank4a.png");
+	tankTexture1b.loadFromFile("textures/tank4b.png");
+	Tank tankLeft(150, 550, Vector2f(100, 55), 1000, 100, true, &tankTexture1a, &tankTexture1b);
+	Tank tankRight(1050, 550, Vector2f(100, 55), 1000, 100, false, &tankTexture1a, &tankTexture1b);
 
 	Texture explosionTexture;
-	explosionTexture.loadFromFile("explosion1.png");
+	explosionTexture.loadFromFile("textures/explosion1.png");
 	Explosion explosion(&explosionTexture);
 
 	/*RectangleShape explosion1;
@@ -124,6 +127,7 @@ int main() {
 				shoot = true;
 				power = sqrt(pow((position2.y - position1.y), 2) + pow((position2.x - position1.x), 2)) / 8;
 				angle = findAngle(ball, mousePos);
+				whoHasMove++;
 			}
 		}
 		else if (Keyboard::isKeyPressed(Keyboard::Escape)) {
@@ -145,21 +149,21 @@ int main() {
 			if (po.x <= 1280 && po.x >=0) {
 				if (map[stripeNumber] >= (720 - ball.getY())) {
 
-					if (stripeNumber - 7 >= 0 && map[stripeNumber - 7] < 720) map[stripeNumber - 7] -= 2;
-					if (stripeNumber - 6 >= 0 && map[stripeNumber - 6] < 720) map[stripeNumber - 6] -= 10;
-					if (stripeNumber - 5 >= 0 && map[stripeNumber - 5] < 720) map[stripeNumber - 5] -= 20;
-					if (stripeNumber - 4 >= 0 && map[stripeNumber - 4] < 720) map[stripeNumber - 4] -= 28;
-					if (stripeNumber - 3 >= 0 && map[stripeNumber - 3] < 720) map[stripeNumber - 3] -= 35;
-					if (stripeNumber - 2 >= 0 && map[stripeNumber - 2] < 720) map[stripeNumber - 2] -= 40;
-					if (stripeNumber - 1 >= 0 && map[stripeNumber - 1] < 720) map[stripeNumber - 1] -= 42;
-					map[stripeNumber] -= 44;
-					if (stripeNumber + 1 <= 159 && map[stripeNumber + 1] < 720) map[stripeNumber + 1] -= 42;
-					if (stripeNumber + 2 <= 159 && map[stripeNumber + 2] < 720) map[stripeNumber + 2] -= 40;
-					if (stripeNumber + 3 <= 159 && map[stripeNumber + 3] < 720) map[stripeNumber + 3] -= 35;
-					if (stripeNumber + 4 <= 159 && map[stripeNumber + 4] < 720) map[stripeNumber + 4] -= 28;
-					if (stripeNumber + 5 <= 159 && map[stripeNumber + 5] < 720) map[stripeNumber + 5] -= 20;
-					if (stripeNumber + 6 <= 159 && map[stripeNumber + 6] < 720) map[stripeNumber + 6] -= 10;
-					if (stripeNumber + 7 <= 159 && map[stripeNumber + 7] < 720) map[stripeNumber + 7] -= 2;
+					//if (stripeNumber - 7 >= 0 && map[stripeNumber - 7] < 720) map[stripeNumber - 7] -= 2;
+					//if (stripeNumber - 6 >= 0 && map[stripeNumber - 6] < 720) map[stripeNumber - 6] -= 10;
+					if (stripeNumber - 5 >= 0 && map[stripeNumber - 5] < 720) map[stripeNumber - 5] -= 1;
+					if (stripeNumber - 4 >= 0 && map[stripeNumber - 4] < 720) map[stripeNumber - 4] -= 9;
+					if (stripeNumber - 3 >= 0 && map[stripeNumber - 3] < 720) map[stripeNumber - 3] -= 16;
+					if (stripeNumber - 2 >= 0 && map[stripeNumber - 2] < 720) map[stripeNumber - 2] -= 21;
+					if (stripeNumber - 1 >= 0 && map[stripeNumber - 1] < 720) map[stripeNumber - 1] -= 24;
+					map[stripeNumber] -= 26;
+					if (stripeNumber + 1 <= 159 && map[stripeNumber + 1] < 720) map[stripeNumber + 1] -= 24;
+					if (stripeNumber + 2 <= 159 && map[stripeNumber + 2] < 720) map[stripeNumber + 2] -= 21;
+					if (stripeNumber + 3 <= 159 && map[stripeNumber + 3] < 720) map[stripeNumber + 3] -= 16;
+					if (stripeNumber + 4 <= 159 && map[stripeNumber + 4] < 720) map[stripeNumber + 4] -= 9;
+					if (stripeNumber + 5 <= 159 && map[stripeNumber + 5] < 720) map[stripeNumber + 5] -= 1;
+					//if (stripeNumber + 6 <= 159 && map[stripeNumber + 6] < 720) map[stripeNumber + 6] -= 10;
+					//if (stripeNumber + 7 <= 159 && map[stripeNumber + 7] < 720) map[stripeNumber + 7] -= 2;
 
 					if (po.y-50 < 720)
 						explosion.boom(po.x-50, po.y-50);
@@ -169,23 +173,28 @@ int main() {
 					cout << "\nCollision";
 					shoot = false;
 					time = 0;
-					ball.setY(720 - map[18] - 20);
 					if (ball.getY() > 720) {
 						ball.setY(720);
 					}
-					ball.setX(150);
+					if (whoHasMove % 2 == 0) {
+						ball.setX(150);
+						ball.setY(720 - map[18] - 20);
+					}
+					else {
+						ball.setX(1050);
+						ball.setY(720 - map[132] - 20);
+					}
 					ball.Update();
 				}
 					
 			}
 			else {
-				if (720 - ball.getY() < 0) {
-					shoot = false;
-					time = 0;
-					ball.setY(720 - map[18] - 20);
-					ball.setX(150);
-					ball.Update();
-				}
+				shoot = false;
+				time = 0;
+				ball.setY(720 - map[18] - 20);
+				if (whoHasMove % 2 == 0) ball.setX(150);
+				else ball.setX(1050); 
+				ball.Update();
 			}
 				
 		}
@@ -193,8 +202,16 @@ int main() {
 			mousePos = Mouse::getPosition(window);
 			currentAngle = findAngle(ball, mousePos) * -57.2957795;
 			cout << currentAngle << endl;
+			if (whoHasMove % 2 == 0) tankLeft.updateGun(currentAngle);
+			else tankRight.updateGun(currentAngle);
+			
 			ball.setRotation(currentAngle);
-			ball.UpdateY(720 - map[18] - 20);
+			if (whoHasMove % 2 == 0) {
+				ball.UpdateY(720 - map[18] - 20);
+			}
+			else {
+				ball.UpdateY(720 - map[132] - 20);
+			}
 			
 			arrow.setPosition(Vector2f(mousePos.x,mousePos.y));
 			arrow.setRotation(currentAngle);
