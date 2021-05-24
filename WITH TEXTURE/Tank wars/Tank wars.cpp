@@ -1,18 +1,21 @@
 #include <iostream>
+#include <cstdlib>
+#include <cstdio>
+#include <ctime>
+#include <fstream>
 #include <SFML\Graphics.hpp>
-#include "Ball.h"
 #include "tank.h"
 #include "explosion.h"
-#include <fstream>
+#include "Bullet.h"
 #define M_PI 3.14159265358979323846
 
 using namespace sf;
 using namespace std;
 
-double findAngle(Ball ball, Vector2i mousePos) {
+double findAngle(Bullet bullet, Vector2i mousePos) {
 
-	double sX = ball.getX();
-	double sY = ball.getY();
+	double sX = bullet.getX();
+	double sY = bullet.getY();
 	double angle = 0;
 
 	angle = atan((sY - mousePos.y) / (sX - mousePos.x));
@@ -31,6 +34,7 @@ double findAngle(Ball ball, Vector2i mousePos) {
 }
 
 int main() {
+	srand(time(NULL));
 
 	double time = 0;
 	double power = 0;
@@ -39,10 +43,11 @@ int main() {
 	bool collided = false;
 	double x = 0;
 	double y = 0;
-	bool mapChanged = true;
 	int stripeNumber = 0;
 	double currentAngle = 0;
-	int whoHasMove = 0;
+	int random1 = 0;
+	random1 = rand() % 2;
+	int whoHasMove = random1;
 
 	Vector2f position1;
 	Vector2f position2;
@@ -64,8 +69,7 @@ int main() {
 	window.setFramerateLimit(60);
 	window.setMouseCursorVisible(false);
 
-	Vector2i mousePos = Mouse::getPosition(window);
-	Ball ball(140, 580, 13);
+
 	RectangleShape surface;
 	surface.setSize(Vector2f(8, 360));
 	//surface.setFillColor(Color(25, 137, 8));
@@ -93,13 +97,15 @@ int main() {
 	explosionTexture.loadFromFile("textures/explosion1.png");
 	Explosion explosion(&explosionTexture);
 
-	/*RectangleShape explosion1;
-	explosion1.setSize(Vector2f(100,100));
-	explosion1.setTexture(&explosionTexture1);
-	explosion1.setTextureRect(IntRect(100, 0, 100, 100));
-	explosion1.setPosition(500, 500);
-	explosion1.setOrigin(50, 50);*/
-	
+	Texture bullet1;
+	bullet1.loadFromFile("textures/bullet1.png");
+	Vector2i mousePos = Mouse::getPosition(window);
+	Bullet bullet(140, 580, 13, &bullet1);
+	if (whoHasMove == 0) bullet.setX(140);
+	else bullet.setX(1050);
+
+	bullet.Update();
+
 	while (window.isOpen()) {
 
 		Event evnt;
@@ -116,17 +122,17 @@ int main() {
 			surface.setTextureRect(IntRect(i * 8, 500 - map[i], 8, map[i]));
 			window.draw(surface);
 		}
-		position1 = Vector2f(ball.getX() + (ball.getR() / 2), ball.getY() + (ball.getR() / 2));
+		position1 = Vector2f(bullet.getX() + (bullet.getR() / 2), bullet.getY() + (bullet.getR() / 2));
 		position2 = Vector2f(mousePos.x, mousePos.y);;
 
 		if (Mouse::isButtonPressed(Mouse::Left)) {
 			if (!shoot) {
-				x = ball.getX();
-				y = ball.getY();
+				x = bullet.getX();
+				y = bullet.getY();
 				mousePos = Mouse::getPosition(window);
 				shoot = true;
 				power = sqrt(pow((position2.y - position1.y), 2) + pow((position2.x - position1.x), 2)) / 8;
-				angle = findAngle(ball, mousePos);
+				angle = findAngle(bullet, mousePos);
 				whoHasMove++;
 			}
 		}
@@ -136,18 +142,19 @@ int main() {
 
 		if (shoot) {
 
+			bullet.removeOpacity();
 			time += 0.1;
-			Pos po = ball.ballPath(x, y, power, angle, time);
-			ball.setX(po.x);
-			if (po.y == ball.getY()) {
-				ball.setRotation(-currentAngle);
+			Pos po = bullet.ballPath(x, y, power, angle, time);
+			bullet.setX(po.x);
+			if (po.y == bullet.getY()) {
+				bullet.setRotation(-currentAngle);
 			}
-			ball.setY(po.y);
-			ball.Update();
+			bullet.setY(po.y);
+			bullet.Update();
 
 			stripeNumber = po.x / 8;
 			if (po.x <= 1280 && po.x >=0) {
-				if (map[stripeNumber] >= (720 - ball.getY())) {
+				if (map[stripeNumber] >= (720 - bullet.getY())) {
 
 					//if (stripeNumber - 7 >= 0 && map[stripeNumber - 7] < 720) map[stripeNumber - 7] -= 2;
 					//if (stripeNumber - 6 >= 0 && map[stripeNumber - 6] < 720) map[stripeNumber - 6] -= 10;
@@ -173,46 +180,49 @@ int main() {
 					cout << "\nCollision";
 					shoot = false;
 					time = 0;
-					if (ball.getY() > 720) {
-						ball.setY(720);
+					if (bullet.getY() > 720) {
+						bullet.setY(720);
 					}
 					if (whoHasMove % 2 == 0) {
-						ball.setX(150);
-						ball.setY(720 - map[18] - 20);
+						bullet.setX(150);
+						bullet.setY(720 - map[18] - 20);
+						//tankRight.updateGun(180);
 					}
 					else {
-						ball.setX(1050);
-						ball.setY(720 - map[132] - 20);
+						bullet.setX(1050);
+						bullet.setY(720 - map[132] - 20);
+						//tankLeft.updateGun(0);
 					}
-					ball.Update();
+					bullet.Update();
 				}
 					
 			}
 			else {
 				shoot = false;
 				time = 0;
-				ball.setY(720 - map[18] - 20);
-				if (whoHasMove % 2 == 0) ball.setX(150);
-				else ball.setX(1050); 
-				ball.Update();
+				bullet.setY(720 - map[18] - 20);
+				if (whoHasMove % 2 == 0) bullet.setX(150);
+				else bullet.setX(1050); 
+				bullet.Update();
 			}
 				
 		}
 		else {
 			mousePos = Mouse::getPosition(window);
-			currentAngle = findAngle(ball, mousePos) * -57.2957795;
+			currentAngle = findAngle(bullet, mousePos) * -57.2957795;
 			cout << currentAngle << endl;
 			if (whoHasMove % 2 == 0) tankLeft.updateGun(currentAngle);
 			else tankRight.updateGun(currentAngle);
 			
-			ball.setRotation(currentAngle);
+			bullet.setRotation(currentAngle);
 			if (whoHasMove % 2 == 0) {
-				ball.UpdateY(720 - map[18] - 20);
+				bullet.UpdateY(720 - map[18] - 20);
 			}
 			else {
-				ball.UpdateY(720 - map[132] - 20);
+				bullet.UpdateY(720 - map[132] - 20);
 			}
-			
+			bullet.addOpacity();
+
 			arrow.setPosition(Vector2f(mousePos.x,mousePos.y));
 			arrow.setRotation(currentAngle);
 
@@ -222,7 +232,7 @@ int main() {
 
 		
 		mousePos = Mouse::getPosition(window);
-		ball.Draw(window);
+		bullet.Draw(window);
 		explosion.Draw(window);
 		tankLeft.Update(720 - map[18] - 25);
 		tankRight.Update(720 - map[130] - 25);
