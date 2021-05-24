@@ -12,8 +12,9 @@ public:
 	double findAngle(Bullet bullet, Vector2i mousePos);
 	void drawSurface();
 	void bulletInAir();
+	void bulletInTank();
 	void bulletHitGround(Pos po);
-	void updateGround();
+	void holeMaker();
 
 private:
 	double time;
@@ -33,7 +34,7 @@ private:
 	int map[160]{};
 
 	RenderWindow* window;
-	Event sfmlEvent;
+	Event winEvent;
 	Vector2i mousePos;
 
 	Texture arrowTexture;
@@ -42,8 +43,10 @@ private:
 	Texture tankTexture1b;
 	Texture explosionTexture;
 	Texture bulletTexture;
+	Texture backgroundTexture;
 
-	RectangleShape surface;
+	RectangleShape ground;
+	RectangleShape background;
 	RectangleShape arrow;
 	Tank tankLeft = Tank(150, 550, Vector2f(100, 55), 1000, 100, true, &tankTexture1a, &tankTexture1b);
 	Tank tankRight = Tank(1050, 550, Vector2f(100, 55), 1000, 100, false, &tankTexture1a, &tankTexture1b);

@@ -5,9 +5,7 @@ int main() {
 
 	Game tanks;
 
-
-	tanks.run();
-	
+	tanks.run();	
 
 	return 0;
 }
