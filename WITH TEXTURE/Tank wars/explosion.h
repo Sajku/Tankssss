@@ -5,6 +5,7 @@ using namespace sf;
 
 class Explosion {
 public:
+	Explosion();
 	Explosion(Texture* texture);
 	~Explosion();
 

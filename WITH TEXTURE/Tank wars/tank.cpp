@@ -10,8 +10,6 @@ Tank::Tank(int x, int y, Vector2f size, int hp, int dmg, bool side, Texture* tex
 	body.setOrigin(50,27);
 	body.setSize(size);
 	body.setTexture(texture);
-	gun.setPosition(x + 8, y + 41);
-	gun.setOrigin(0, 3);
 	gun.setSize(Vector2f(43, 6));
 	gun.setTexture(texture2);
 	if (!side) {
@@ -19,6 +17,12 @@ Tank::Tank(int x, int y, Vector2f size, int hp, int dmg, bool side, Texture* tex
 		gun.setOrigin(43, 3);
 		gun.setTextureRect(IntRect(43,0,-43,6));
 		gun.setPosition(x - 7, y + 41);
+	}
+	else {
+		body.setTextureRect(IntRect(0, 0, 100, 55));
+		gun.setOrigin(0, 3);
+		gun.setTextureRect(IntRect(0, 0, 43, 6));
+		gun.setPosition(x + 8, y + 41);
 	}
 }
 

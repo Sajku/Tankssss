@@ -7,6 +7,7 @@ using namespace std;
 class Tank
 {
 public:
+	Tank();
 	Tank(int x, int y, Vector2f size, int hp, int dmg, bool side, Texture* texture, Texture* texture2);
 	~Tank();
 	void Draw(RenderWindow& window);

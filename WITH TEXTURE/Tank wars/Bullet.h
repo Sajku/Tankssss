@@ -13,6 +13,7 @@ struct Pos {
 class Bullet
 {
 public:
+	Bullet();
 	Bullet(double x, double y, double radius, Texture* texture1);
 	~Bullet();
 
