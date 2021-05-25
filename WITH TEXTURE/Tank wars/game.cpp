@@ -31,7 +31,7 @@ Game::Game() {
 	// =============== SFML ELEMENTS SETTING ===============
 	// =============== ESSENTIALS ===============
 
-	this->window = new RenderWindow(VideoMode(1280,720), "Top Tanks", sf::Style::Close | sf::Style::Titlebar | sf::Style::Default);
+	this->window = new RenderWindow(VideoMode(1280,720), "Top Tanks", sf::Style::Close | sf::Style::Titlebar);
 	this->window->setFramerateLimit(60);
 	this->window->setMouseCursorVisible(false);
 	this->mousePos = Mouse::getPosition(*window);
@@ -93,8 +93,8 @@ void Game::run() {
 		}
 
 		// BACKGROUND AND GROUND PRINTING
-		//window->clear(Color(135, 206, 235));
-		window->draw(background);
+		window->clear(Color(135, 206, 235));
+		//window->draw(background);
 		for (int i = 0; i < 160; i++) {
 			ground.setSize(Vector2f(8, map[i]));
 			ground.setPosition(i * 8, 720 - map[i]);
@@ -173,7 +173,7 @@ void Game::bulletInAir() {
 	stripeNumber = po.x / 8;
 
 	// BULLET BEETWEEN WINDOW WALLS
-	if (po.x <= 1280 && po.x >= 0) {
+	if (po.x <= 1278 && po.x >= 0) {
 
 		// BULLET COLLISION DETECTION
 		if (map[stripeNumber] >= (720 - bullet.getY())) {
