@@ -13,7 +13,7 @@ int main() {
 
 	Game tanks(&window);
 
-	tanks.run();	
+	tanks.run();
 
 	return 0;
 }

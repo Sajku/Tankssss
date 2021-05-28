@@ -91,13 +91,13 @@ void Menu::run() {
 		}
 
 		if (creditsOpen) {
-			window->clear(Color(135, 206, 235));
+			window->clear(Color(150, 150, 150));
 			window->draw(credits);
 			window->draw(creditsBackButton);
 			window->display();
 		}
 		else {
-			window->clear(Color(135, 206, 235));
+			window->clear(Color(150, 150, 150));
 
 			window->draw(banner);
 			window->draw(playButton);
