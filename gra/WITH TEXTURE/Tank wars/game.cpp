@@ -1,6 +1,6 @@
 #include "all.h"
 
-Game::Game() {
+Game::Game(RenderWindow* window) {
 
 	// =============== VARIABLES SETTING ===============
 	this->time = 0;
@@ -31,9 +31,9 @@ Game::Game() {
 	// =============== SFML ELEMENTS SETTING ===============
 	// =============== ESSENTIALS ===============
 
-	this->window = new RenderWindow(VideoMode(1280,720), "Top Tanks", sf::Style::Close | sf::Style::Titlebar);
-	this->window->setFramerateLimit(60);
-	this->window->setMouseCursorVisible(false);
+	this->window = window;
+	// this->window->setFramerateLimit(60);
+	// this->window->setMouseCursorVisible(false);
 	this->mousePos = Mouse::getPosition(*window);
 
 	// =============== SFML ELEMENTS SETTING ===============

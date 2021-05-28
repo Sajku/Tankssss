@@ -3,14 +3,13 @@
 
 class Game {
 public:
-	Game();
+	Game(RenderWindow* window);
 	virtual ~Game();
 
 	void init();
 	void run();
 
 	double findAngle(Bullet bullet, Vector2i mousePos);
-	void drawSurface();
 	void bulletInAir();
 	void bulletInTank();
 	void bulletHitGround(Pos po);

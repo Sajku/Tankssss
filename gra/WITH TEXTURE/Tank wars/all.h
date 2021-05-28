@@ -9,6 +9,7 @@
 #include "explosion.h"
 #include "Bullet.h"
 #include "game.h"
+#include "menu.h"
 #define M_PI 3.14159265358979323846
 
 using namespace sf;
