@@ -4,64 +4,79 @@ Menu::Menu(RenderWindow* window) {
 	this->window = window;
 	this->mousePos = Mouse::getPosition(*window);
 
+	this->cursorMenuT.loadFromFile("textures/cursor.png");
+	this->cursorMenu.setSize(Vector2f(50, 50));
+	this->cursorMenu.setOrigin(25, 25);
+	this->cursorMenu.setPosition(640, 370);
+	this->cursorMenu.setTexture(&cursorMenuT);
+
 	this->bannerTexture.loadFromFile("textures/banner.png");
+	this->backgroundTexture.loadFromFile("textures/background-menu.png");
 
 	this->banner.setSize(Vector2f(1280, 720));
 	this->banner.setPosition(0, 0);
 	this->banner.setTexture(&bannerTexture);
 
-	this->playButton.setSize(Vector2f(300, 100));
-	this->playButton.setOrigin(150, 0);
-	this->playButton.setPosition(640, 300);
-	this->playButton.setFillColor(Color(50,100,50));
-	this->creditsButton.setSize(Vector2f(300, 100));
-	this->creditsButton.setOrigin(150, 0);
-	this->creditsButton.setPosition(640, 450);
-	this->creditsButton.setFillColor(Color(50, 100, 50));
-	this->quitButton.setSize(Vector2f(300, 100));
-	this->quitButton.setOrigin(150, 0);
-	this->quitButton.setPosition(640, 600);
-	this->quitButton.setFillColor(Color(50, 100, 50));
+	this->background.setSize(Vector2f(1280, 720));
+	this->background.setPosition(0, 0);
+	this->background.setTexture(&backgroundTexture);
 
-	this->credits.setSize(Vector2f(800, 500));
-	this->credits.setOrigin(400, 0);
-	this->credits.setPosition(640, 150);
-	this->credits.setFillColor(Color(100, 50, 50));
+	this->playBtnT.loadFromFile("textures/play.png");
+	this->infoBtnT.loadFromFile("textures/info.png");
+	this->quitBtnT.loadFromFile("textures/quit.png");
+	this->menuBtnT.loadFromFile("textures/menu.png");
+	this->playBtnTHover.loadFromFile("textures/playH.png");
+	this->infoBtnTHover.loadFromFile("textures/infoH.png");
+	this->quitBtnTHover.loadFromFile("textures/quitH.png");
+	this->menuBtnTHover.loadFromFile("textures/menuH.png");
 
-	this->creditsBackButton.setSize(Vector2f(50, 50));
-	this->creditsBackButton.setOrigin(00, 0);
-	this->creditsBackButton.setPosition(25, 600);
-	this->creditsBackButton.setFillColor(Color(25, 25, 150));
+	this->playButton.setSize(Vector2f(268, 94));
+	this->playButton.setOrigin(134, 0);
+	this->playButton.setPosition(640, 330);
+	this->playButton.setTexture(&playBtnT);
+	this->infoButton.setSize(Vector2f(268, 94));
+	this->infoButton.setOrigin(134, 0);
+	this->infoButton.setPosition(640, 450);
+	this->infoButton.setTexture(&infoBtnT);
+	this->quitButton.setSize(Vector2f(268, 94));
+	this->quitButton.setOrigin(134, 0);
+	this->quitButton.setPosition(640, 570);
+	this->quitButton.setTexture(&quitBtnT);
+	this->menuButton.setSize(Vector2f(268, 94));
+	this->menuButton.setOrigin(134, 0);
+	this->menuButton.setPosition(200, 600);
+	this->menuButton.setTexture(&menuBtnT);
+
+	this->info.setSize(Vector2f(800, 500));
+	this->info.setOrigin(400, 0);
+	this->info.setPosition(640, 150);
+	this->info.setFillColor(Color(100, 50, 50));
+
+	this->endingT.loadFromFile("textures/theend.png");
+	this->ending.setSize(Vector2f(1280,720));
+	this->ending.setPosition(0, 0);
+	this->ending.setTexture(&endingT);
+	
 
 	this->menuOpen = true;
 	this->creditsOpen = false;
 
-	this->font.loadFromFile("textures/WarFont.ttf");
-	this->text1.setFont(font);
-	this->text1.setCharacterSize(50);
-	this->text1.setFillColor(Color::Red);
-	this->text1.setStyle(Text::Bold);
-	this->text1.setString("Play");
-	this->text1.setPosition(570, 315);
+	//this->font.loadFromFile("textures/Chalkduster400.ttf");
+	//this->text1.setFont(font);
+	//this->text1.setCharacterSize(50);
+	//this->text1.setFillColor(Color::Red);
+	//this->text1.setStyle(Text::Bold);
+	//this->text1.setString("Play");
+	//this->text1.setPosition(570, 315);
 
-	this->text2.setFont(font);
-	this->text2.setCharacterSize(50);
-	this->text2.setFillColor(Color::Red);
-	this->text2.setStyle(Text::Bold);
-	this->text2.setString("Credits");
-	this->text2.setPosition(530, 465);
+	this->playBtn = playButton.getGlobalBounds();
+	this->infoBtn = infoButton.getGlobalBounds();
+	this->quitBtn = quitButton.getGlobalBounds();
+	this->menuBtn = menuButton.getGlobalBounds();
 
-	this->text3.setFont(font);
-	this->text3.setCharacterSize(50);
-	this->text3.setFillColor(Color::Red);
-	this->text3.setStyle(Text::Bold);
-	this->text3.setString("Quit");
-	this->text3.setPosition(575, 615);
-
-	this->button1 = playButton.getGlobalBounds();
-	this->button2 = creditsButton.getGlobalBounds();
-	this->button3 = quitButton.getGlobalBounds();
-	this->button4 = creditsBackButton.getGlobalBounds();
+	this->mX = 0;
+	this->mY = 0;
+	this->endingOpen = false;
 }
 
 Menu::~Menu() {}
@@ -70,67 +85,117 @@ void Menu::run() {
 
 	while (this->window->isOpen() && menuOpen) {
 
-		// WINDOW AND KEYBOARD EVENTS LISTENER
-		while (this->window->pollEvent(this->winEvent))
-		{
-			switch (this->winEvent.type)
-			{
-			case Event::Closed:
+		// ENDING SCREEN
+		if (endingOpen) {
+			window->draw(ending);
+			window->display();
+			this_thread::sleep_for(chrono::milliseconds(300));
+
+			if (Mouse::isButtonPressed(Mouse::Left))
 				this->window->close();
-				break;
-			case Event::KeyPressed:
-				if (this->winEvent.key.code == Keyboard::Escape)
+			while (this->window->pollEvent(this->winEvent))
+			{
+				switch (this->winEvent.type)
+				{
+				case Event::Closed:
 					this->window->close();
-				break;
+					break;
+				case Event::KeyPressed:
+					if (this->winEvent.key.code == Keyboard::Escape)
+						this->window->close();
+					
+					break;
+				}
 			}
 		}
-
-		if (Mouse::isButtonPressed(Mouse::Left)) {
-			mousePos = Mouse::getPosition(*window);
-			choose(mousePos.x, mousePos.y);
-		}
-
-		if (creditsOpen) {
-			window->clear(Color(150, 150, 150));
-			window->draw(credits);
-			window->draw(creditsBackButton);
-			window->display();
-		}
+		// MENU 
 		else {
-			window->clear(Color(150, 150, 150));
 
-			window->draw(banner);
-			window->draw(playButton);
-			window->draw(creditsButton);
-			window->draw(quitButton);
-			window->draw(text1);
-			window->draw(text2);
-			window->draw(text3);
-			window->display();
+			// WINDOW AND KEYBOARD EVENTS LISTENER
+			while (this->window->pollEvent(this->winEvent))
+			{
+				switch (this->winEvent.type)
+				{
+				case Event::Closed:
+					endingOpen = true;
+					break;
+				case Event::KeyPressed:
+					if (this->winEvent.key.code == Keyboard::Escape)
+						endingOpen = true;
+					break;
+				}
+			}
+
+			mousePos = Mouse::getPosition(*window);
+			mX = mousePos.x;
+			mY = mousePos.y;
+			if (!creditsOpen) {
+				if (playBtn.contains(mX, mY)) playButton.setTexture(&playBtnTHover);
+				else playButton.setTexture(&playBtnT);
+
+				if (infoBtn.contains(mX, mY)) infoButton.setTexture(&infoBtnTHover);
+				else infoButton.setTexture(&infoBtnT);
+
+				if (quitBtn.contains(mX, mY)) quitButton.setTexture(&quitBtnTHover);
+				else quitButton.setTexture(&quitBtnT);
+
+			}
+			else {
+				if (menuBtn.contains(mX, mY)) menuButton.setTexture(&menuBtnTHover);
+				else menuButton.setTexture(&menuBtnT);
+			}
+
+			
+			if (Mouse::isButtonPressed(Mouse::Left)) {
+
+				choose(mousePos.x, mousePos.y);
+			}
+
+			cursorMenu.setPosition(mousePos.x, mousePos.y);
+
+
+			if (creditsOpen) {
+				window->clear(Color(150, 150, 150));
+				window->draw(background);
+				window->draw(menuButton);
+				window->draw(cursorMenu);
+				window->display();
+			}
+			else {
+				window->draw(background);
+				window->draw(banner);
+				window->draw(playButton);
+				window->draw(infoButton);
+				window->draw(quitButton);
+				window->draw(text1);
+				window->draw(cursorMenu);
+				window->display();
+			}
 		}
 	}
+
 }
 
 void Menu::choose(int mX, int mY) {
 	
 	if (!creditsOpen) {
-		if (button1.contains(mX, mY)) {
+		if (playBtn.contains(mX, mY)) {
 			cout << "\n1. BUTTON";
 			menuOpen = false;
 		}
 
-		if (button2.contains(mX, mY)) {
+		if (infoBtn.contains(mX, mY)) {
 			cout << "\n2. BUTTON";
 			creditsOpen = true;
 		}
 
-		if (button3.contains(mX, mY)) {
+		if (quitBtn.contains(mX, mY)) {
 			cout << "\n3. BUTTON";
-			window->close();
+			endingOpen = true;
 		}
 	}
 	else {
-		if (button4.contains(mX, mY)) {
+		if (menuBtn.contains(mX, mY)) {
 			cout << "\nBACK TO MENU";
 			creditsOpen = false;
 			menuOpen = true;

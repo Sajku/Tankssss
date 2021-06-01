@@ -15,6 +15,7 @@ Game::Game(RenderWindow* window) {
 	int random1 = 0;
 	random1 = rand() % 2;
 	this->whoHasMove = random1;
+	this->endingOpen = false;
 
 	// =============== SFML ELEMENTS SETTING ===============
 	// =============== TEXTURES LOADING ===============
@@ -22,11 +23,11 @@ Game::Game(RenderWindow* window) {
 	this->arrowTexture.loadFromFile("textures/arrow.png");
 	this->arrowTexture.setSmooth(true);								// ??? IDK IF NEEDED
 	this->surfaceTexture.loadFromFile("textures/grass1.jpg");
-	this->tankTexture1a.loadFromFile("textures/tank4a.png");
-	this->tankTexture1b.loadFromFile("textures/tank4b.png");
+	this->tankTexture1a.loadFromFile("textures/tanks/tank2a.png");
+	this->tankTexture1b.loadFromFile("textures//tanks/tank2b.png");
 	this->explosionTexture.loadFromFile("textures/explosion1.png");
 	this->bulletTexture.loadFromFile("textures/bullet1.png");
-	this->backgroundTexture.loadFromFile("textures/background1.png");
+	this->backgroundTexture.loadFromFile("textures/background.png");
 
 	// =============== SFML ELEMENTS SETTING ===============
 	// =============== ESSENTIALS ===============
@@ -51,7 +52,11 @@ Game::Game(RenderWindow* window) {
 	this->bullet = Bullet(140, 580, 13, &bulletTexture);
 	// PROPER BULLET PLACEMENT AT THE START
 	if (this->whoHasMove == 0) bullet.setX(140);
-	else bullet.setX(1050);
+	else bullet.setX(1130);
+	this->endingT.loadFromFile("textures/theend.png");
+	this->ending.setSize(Vector2f(1280, 720));
+	this->ending.setPosition(0, 0);
+	this->ending.setTexture(&endingT);
 
 	// =============== MAP RANDOM CHOOSING AND LOADING FROM FILE ===============
 	// TO DO -------------------------------------------------------------------------------------------------------------------------------------------
@@ -59,7 +64,7 @@ Game::Game(RenderWindow* window) {
 
 	string str = "";
 	int count = 0;
-	ifstream file("map_1.txt");
+	ifstream file("maps/map_4.txt");
 	if (file.good()) {
 		while (!file.eof()) {
 			file >> str;
@@ -77,62 +82,68 @@ void Game::run() {
 	// MAIN GAME LOOP
 	while (this->window->isOpen()) {
 
-		// WINDOW AND KEYBOARD EVENTS LISTENER
-		while (this->window->pollEvent(this->winEvent))
-		{
-			switch (this->winEvent.type)
-			{
-			case Event::Closed:
-				this->window->close();
-				break;
-			case Event::KeyPressed:
-				if (this->winEvent.key.code == Keyboard::Escape)
-					this->window->close();
-				break;
+		if (endingOpen) {
+			if (this->winEvent.type == Event::Closed || Keyboard::isKeyPressed(Keyboard::Escape)) {
+				window->draw(ending);
+				window->display();
+				this_thread::sleep_for(chrono::milliseconds(1500));
+				
+				window->close();
+			
 			}
-		}
-
-		// BACKGROUND AND GROUND PRINTING
-		window->clear(Color(135, 206, 235));
-		//window->draw(background);
-		for (int i = 0; i < 160; i++) {
-			ground.setSize(Vector2f(8, map[i]));
-			ground.setPosition(i * 8, 720 - map[i]);
-			ground.setTextureRect(IntRect(i * 8, 500 -  map[i], 8, map[i]));
-			window->draw(ground);
-		}
-		position1 = Vector2f(bullet.getX() + (bullet.getR() / 2), bullet.getY() + (bullet.getR() / 2));
-		position2 = Vector2f(mousePos.x, mousePos.y);;
-
-
-		// SHOOTING LISTENER
-		if (Mouse::isButtonPressed(Mouse::Left)) {
-			if (!shoot) {
-				x = bullet.getX();
-				y = bullet.getY();
-				shoot = true;
-				power = sqrt(pow((position2.y - position1.y), 2) + pow((position2.x - position1.x), 2)) / 8;
-				angle = findAngle(bullet, mousePos);
-				whoHasMove++;
-			}
-		}
-
-		if (shoot) {
-			bulletInAir();
 		}
 		else {
-			bulletInTank();
-		}
+			// WINDOW AND KEYBOARD EVENTS LISTENER
+			while (this->window->pollEvent(this->winEvent)) {
+				if (this->winEvent.type == Event::Closed || Keyboard::isKeyPressed(Keyboard::Escape)) {
+					endingOpen = true;
+				}
+			}
 
-		// GAME ELEMENT DRAWING
-		bullet.Draw(*window);
-		explosion.Draw(*window);
-		tankLeft.Update(720 - map[18] - 25);
-		tankRight.Update(720 - map[130] - 25);
-		tankLeft.Draw(*window);
-		tankRight.Draw(*window);
-		//window.draw(explosion1);
-		this->window->display();
+			// BACKGROUND AND GROUND PRINTING
+			//window->clear(Color(135, 206, 235));
+			window->draw(background);
+			for (int i = 0; i < 160; i++) {
+				ground.setSize(Vector2f(8, map[i]));
+				ground.setPosition(i * 8, 720 - map[i]);
+				ground.setTextureRect(IntRect(i * 8, 600 - map[i], 8, map[i]));
+				window->draw(ground);
+			}
+			position1 = Vector2f(bullet.getX() + (bullet.getR() / 2), bullet.getY() + (bullet.getR() / 2));
+			position2 = Vector2f(mousePos.x, mousePos.y);;
+
+
+			// SHOOTING LISTENER
+			if (Mouse::isButtonPressed(Mouse::Left)) {
+				if (position2.x >= 0 && position2.x <= 1280 && position2.y >= 0 && position2.y <= 720) {
+					if (!shoot) {
+						x = bullet.getX();
+						y = bullet.getY();
+						shoot = true;
+						power = sqrt(pow((position2.y - position1.y), 2) + pow((position2.x - position1.x), 2)) / 8;
+						angle = findAngle(bullet, mousePos);
+						whoHasMove++;
+					}
+				}
+			}
+
+			if (shoot) {
+				bulletInAir();
+			}
+			else {
+				bulletInTank();
+			}
+
+			// GAME ELEMENT DRAWING
+			bullet.Draw(*window);
+			explosion.Draw(*window);
+			tankLeft.Update(720 - map[18] - 25);
+			tankRight.Update(720 - map[141] - 25);
+			tankLeft.Draw(*window);
+			tankRight.Draw(*window);
+			//window.draw(explosion1);
+			this->window->display();
+		}
 	}
 }
 
@@ -187,7 +198,7 @@ void Game::bulletInAir() {
 		time = 0;
 		bullet.setY(720 - map[18] - 20);
 		if (whoHasMove % 2 == 0) bullet.setX(150);
-		else bullet.setX(1050);
+		else bullet.setX(1130);
 		bullet.Update();
 	}
 }
@@ -206,7 +217,7 @@ void Game::bulletInTank() {
 		bullet.UpdateY(720 - map[18] - 20);
 	}
 	else {
-		bullet.UpdateY(720 - map[132] - 20);
+		bullet.UpdateY(720 - map[141] - 20);
 	}
 	bullet.addOpacity();
 
@@ -240,8 +251,8 @@ void Game::bulletHitGround(Pos po) {
 		//tankRight.updateGun(180);
 	}
 	else {
-		bullet.setX(1050);
-		bullet.setY(720 - map[132] - 20);
+		bullet.setX(1130);
+		bullet.setY(720 - map[141] - 20);
 		//tankLeft.updateGun(0);
 	}
 	bullet.Update();

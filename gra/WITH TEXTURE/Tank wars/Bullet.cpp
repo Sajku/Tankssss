@@ -24,6 +24,7 @@ void Bullet::Update() {
 }
 
 void Bullet::UpdateY(int y) {
+	this->y = y;
 	body.setPosition(x, y);
 }
 

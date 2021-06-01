@@ -4,6 +4,8 @@
 #include <cstdio>
 #include <ctime>
 #include <fstream>
+#include <chrono>
+#include <thread>
 #include <SFML\Graphics.hpp>
 #include "tank.h"
 #include "explosion.h"

@@ -13,28 +13,44 @@ private:
 	Event winEvent;
 	Vector2i mousePos;
 
-	Texture bannerTexture;
-	RectangleShape banner;
-	RectangleShape playButton;
-	RectangleShape creditsButton;
-	RectangleShape quitButton;
-	
-	RectangleShape credits;
-	RectangleShape creditsBackButton;
+	Texture cursorMenuT;
+	RectangleShape cursorMenu;
 
-	FloatRect button1;
-	FloatRect button2;
-	FloatRect button3;
-	FloatRect button4;
+	Texture bannerTexture;
+	Texture backgroundTexture;
+	RectangleShape banner;
+	RectangleShape background;
+
+	Texture playBtnT;
+	Texture infoBtnT;
+	Texture quitBtnT;
+	Texture menuBtnT;
+	Texture playBtnTHover;
+	Texture infoBtnTHover;
+	Texture quitBtnTHover;
+	Texture menuBtnTHover;
+	RectangleShape playButton;
+	RectangleShape infoButton;
+	RectangleShape quitButton;
+	RectangleShape menuButton;
+
+	RectangleShape info;
+
+	Texture endingT;
+	RectangleShape ending;
+
+	FloatRect playBtn;
+	FloatRect infoBtn;
+	FloatRect quitBtn;
+	FloatRect menuBtn;
 
 	Font font;
 	Text text1;
-	Text text2;
-	Text text3;
 
 	int mX;
 	int mY;
 	
 	bool menuOpen;
 	bool creditsOpen;
+	bool endingOpen;
 };

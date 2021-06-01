@@ -5,7 +5,7 @@ int main() {
 
 	RenderWindow window(VideoMode(1280, 720), "Top Tanks", sf::Style::Close | sf::Style::Titlebar);
 	window.setFramerateLimit(60);
-	window.setMouseCursorVisible(true);
+	window.setMouseCursorVisible(false);
 
 	Menu menu(&window);
 
