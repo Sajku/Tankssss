@@ -24,7 +24,9 @@ Game::Game(RenderWindow* window) {
 	this->arrowTexture.setSmooth(true);								// ??? IDK IF NEEDED
 	this->surfaceTexture.loadFromFile("textures/grass1.jpg");
 	this->tankTexture1a.loadFromFile("textures/tanks/tank2a.png");
-	this->tankTexture1b.loadFromFile("textures//tanks/tank2b.png");
+	this->tankTexture1b.loadFromFile("textures/tanks/tank2b.png");
+	this->tankLeftHPT.loadFromFile("textures/HP-L.png");
+	this->tankRightHPT.loadFromFile("textures/HP-R.png");
 	this->explosionTexture.loadFromFile("textures/explosion1.png");
 	this->bulletTexture.loadFromFile("textures/bullet1.png");
 	this->backgroundTexture.loadFromFile("textures/background.png");
@@ -44,12 +46,38 @@ Game::Game(RenderWindow* window) {
 	this->background.setSize(Vector2f(1280,720));
 	this->background.setTexture(&backgroundTexture);
 	this->background.setPosition(0,0);
-	this->arrow.setSize(Vector2f(100, 50));
-	this->arrow.setOrigin(95, 25);
+	this->arrow.setSize(Vector2f(86, 44));
+	this->arrow.setOrigin(84, 22);
 	this->arrow.setTexture(&arrowTexture);
 	this->ground.setTexture(&surfaceTexture);	
+	this->tankLeftHP.setSize(Vector2f(210, 73));
+	this->tankLeftHP.setPosition(25, 25);
+	this->tankLeftHP.setTexture(&tankLeftHPT);
+	this->tankRightHP.setSize(Vector2f(210, 73));
+	this->tankRightHP.setOrigin(210, 0);
+	this->tankRightHP.setPosition(1255, 25);
+	this->tankRightHP.setTexture(&tankRightHPT);
 	this->explosion = Explosion(&explosionTexture);	
 	this->bullet = Bullet(140, 580, 13, &bulletTexture);
+
+	this->font.loadFromFile("textures/Chalkduster400.ttf");
+	this->leftHP.setFont(font);
+	this->leftHP.setCharacterSize(45);
+	this->leftHP.setFillColor(Color::Black);
+	this->leftHP.setStyle(Text::Bold);
+	this->leftHP.setString("100");
+	this->leftHP.setOrigin(leftHP.getLocalBounds().width/2, 0);
+	this->leftHP.setPosition(177, 34);
+
+	this->font.loadFromFile("textures/Chalkduster400.ttf");
+	this->rightHP.setFont(font);
+	this->rightHP.setCharacterSize(45);
+	this->rightHP.setFillColor(Color::Black);
+	this->rightHP.setStyle(Text::Bold);
+	this->rightHP.setString("100");
+	this->rightHP.setOrigin(leftHP.getLocalBounds().width / 2, 0);
+	this->rightHP.setPosition(1103, 34);
+
 	// PROPER BULLET PLACEMENT AT THE START
 	if (this->whoHasMove == 0) bullet.setX(140);
 	else bullet.setX(1130);
@@ -64,7 +92,7 @@ Game::Game(RenderWindow* window) {
 
 	string str = "";
 	int count = 0;
-	ifstream file("maps/map_4.txt");
+	ifstream file("maps/map_5.txt");
 	if (file.good()) {
 		while (!file.eof()) {
 			file >> str;
@@ -84,9 +112,9 @@ void Game::run() {
 
 		if (endingOpen) {
 			if (this->winEvent.type == Event::Closed || Keyboard::isKeyPressed(Keyboard::Escape)) {
-				window->draw(ending);
-				window->display();
-				this_thread::sleep_for(chrono::milliseconds(1500));
+				//window->draw(ending);
+				//window->display();
+				//this_thread::sleep_for(chrono::milliseconds(1500));
 				
 				window->close();
 			
@@ -139,6 +167,12 @@ void Game::run() {
 			explosion.Draw(*window);
 			tankLeft.Update(720 - map[18] - 25);
 			tankRight.Update(720 - map[141] - 25);
+			leftHP.setString(tankLeft.getHP());
+			rightHP.setString(tankRight.getHP());
+			window->draw(tankLeftHP);
+			window->draw(tankRightHP);
+			window->draw(leftHP);
+			window->draw(rightHP);
 			tankLeft.Draw(*window);
 			tankRight.Draw(*window);
 			//window.draw(explosion1);

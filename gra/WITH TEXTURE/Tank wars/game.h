@@ -37,10 +37,16 @@ private:
 	Event winEvent;
 	Vector2i mousePos;
 
+	Font font;
+	Text leftHP;
+	Text rightHP;
+
 	Texture arrowTexture;
 	Texture surfaceTexture;
 	Texture tankTexture1a;
 	Texture tankTexture1b;
+	Texture tankLeftHPT;
+	Texture tankRightHPT;
 	Texture explosionTexture;
 	Texture bulletTexture;
 	Texture backgroundTexture;
@@ -51,8 +57,11 @@ private:
 	RectangleShape ground;
 	RectangleShape background;
 	RectangleShape arrow;
-	Tank tankLeft = Tank(150, 550, Vector2f(100, 55), 1000, 100, true, &tankTexture1a, &tankTexture1b);
-	Tank tankRight = Tank(1130, 550, Vector2f(100, 55), 1000, 100, false, &tankTexture1a, &tankTexture1b);
+	Tank tankLeft = Tank(150, 550, Vector2f(100, 55), 100, 10, true, &tankTexture1a, &tankTexture1b);
+	Tank tankRight = Tank(1130, 550, Vector2f(100, 55), 100, 10, false, &tankTexture1a, &tankTexture1b);
+	RectangleShape tankLeftHP;
+	RectangleShape tankRightHP;
+	
 	Explosion explosion = Explosion(&explosionTexture);
 	Bullet bullet = Bullet(140, 580, 13, &bulletTexture);
 

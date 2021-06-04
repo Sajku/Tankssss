@@ -20,7 +20,9 @@ private:
 	Texture backgroundTexture;
 	RectangleShape banner;
 	RectangleShape background;
+	RectangleShape info;
 
+	Texture infoT;
 	Texture playBtnT;
 	Texture infoBtnT;
 	Texture quitBtnT;
@@ -34,7 +36,6 @@ private:
 	RectangleShape quitButton;
 	RectangleShape menuButton;
 
-	RectangleShape info;
 
 	Texture endingT;
 	RectangleShape ending;
@@ -44,8 +45,6 @@ private:
 	FloatRect quitBtn;
 	FloatRect menuBtn;
 
-	Font font;
-	Text text1;
 
 	int mX;
 	int mY;

@@ -16,6 +16,11 @@ Menu::Menu(RenderWindow* window) {
 	this->banner.setSize(Vector2f(1280, 720));
 	this->banner.setPosition(0, 0);
 	this->banner.setTexture(&bannerTexture);
+	
+	this->infoT.loadFromFile("textures/game_info.png");
+	this->info.setSize(Vector2f(1280, 720));
+	this->info.setPosition(0, 0);
+	this->info.setTexture(&infoT);
 
 	this->background.setSize(Vector2f(1280, 720));
 	this->background.setPosition(0, 0);
@@ -44,13 +49,9 @@ Menu::Menu(RenderWindow* window) {
 	this->quitButton.setTexture(&quitBtnT);
 	this->menuButton.setSize(Vector2f(268, 94));
 	this->menuButton.setOrigin(134, 0);
-	this->menuButton.setPosition(200, 600);
+	this->menuButton.setPosition(640, 600);
 	this->menuButton.setTexture(&menuBtnT);
 
-	this->info.setSize(Vector2f(800, 500));
-	this->info.setOrigin(400, 0);
-	this->info.setPosition(640, 150);
-	this->info.setFillColor(Color(100, 50, 50));
 
 	this->endingT.loadFromFile("textures/theend.png");
 	this->ending.setSize(Vector2f(1280,720));
@@ -60,14 +61,6 @@ Menu::Menu(RenderWindow* window) {
 
 	this->menuOpen = true;
 	this->creditsOpen = false;
-
-	//this->font.loadFromFile("textures/Chalkduster400.ttf");
-	//this->text1.setFont(font);
-	//this->text1.setCharacterSize(50);
-	//this->text1.setFillColor(Color::Red);
-	//this->text1.setStyle(Text::Bold);
-	//this->text1.setString("Play");
-	//this->text1.setPosition(570, 315);
 
 	this->playBtn = playButton.getGlobalBounds();
 	this->infoBtn = infoButton.getGlobalBounds();
@@ -155,8 +148,8 @@ void Menu::run() {
 
 
 			if (creditsOpen) {
-				window->clear(Color(150, 150, 150));
 				window->draw(background);
+				window->draw(info);
 				window->draw(menuButton);
 				window->draw(cursorMenu);
 				window->display();
@@ -167,7 +160,6 @@ void Menu::run() {
 				window->draw(playButton);
 				window->draw(infoButton);
 				window->draw(quitButton);
-				window->draw(text1);
 				window->draw(cursorMenu);
 				window->display();
 			}

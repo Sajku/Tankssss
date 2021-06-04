@@ -1,4 +1,5 @@
 #include "tank.h"
+#include <string>
 
 Tank::Tank(int x, int y, Vector2f size, int hp, int dmg, bool side, Texture* texture, Texture* texture2) {
 	this->posX = x;
@@ -51,4 +52,8 @@ void Tank::updateGun(double angle) {
 
 int Tank::getY() {
 	return posY;
+}
+
+string Tank::getHP() {
+	return to_string(health);
 }
