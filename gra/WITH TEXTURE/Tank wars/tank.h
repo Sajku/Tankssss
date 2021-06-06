@@ -15,7 +15,8 @@ public:
 	void updateGun(double angle);
 	int getY();
 	string getHP();
-
+	void DecreaseHP(int damage);
+	int GetX();
 private:
 	int posX;
 	int posY;

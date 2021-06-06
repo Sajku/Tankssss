@@ -57,3 +57,13 @@ int Tank::getY() {
 string Tank::getHP() {
 	return to_string(health);
 }
+
+void Tank::DecreaseHP(int damage)
+{
+	health = health - damage;
+}
+
+int Tank::GetX()
+{
+	return posX;
+}
