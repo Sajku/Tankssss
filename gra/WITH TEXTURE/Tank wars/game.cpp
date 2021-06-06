@@ -65,7 +65,7 @@ Game::Game(RenderWindow* window) {
 	this->leftHP.setCharacterSize(45);
 	this->leftHP.setFillColor(Color::Black);
 	this->leftHP.setStyle(Text::Bold);
-	this->leftHP.setString("200");
+	this->leftHP.setString("100");
 	this->leftHP.setOrigin(leftHP.getLocalBounds().width/2, 0);
 	this->leftHP.setPosition(177, 34);
 
@@ -226,12 +226,12 @@ void Game::bulletInAir() {
 			if (whoHasMove % 2 == 0)
 			{ 
 				//lewy czo³g obrywa xd
-				if (abs(bullet.getY() - tankLeft.getY()) < 100 && abs(bullet.getX() - tankLeft.GetX() < 120)) tankLeft.DecreaseHP(rand() % 5 + 10);
+				if (abs(bullet.getY() - tankLeft.getY()) < 100 && abs(bullet.getX() - tankLeft.GetX() < 50)) tankLeft.DecreaseHP(rand() % 5 + 10);
 			}
 			if (whoHasMove % 2 == 1)
 			{
 				//prawy czo³g obrywa xd
-				if (abs(bullet.getY() - tankRight.getY()) < 100 && abs(bullet.getX() - tankRight.GetX()) < 120) tankRight.DecreaseHP(rand() % 5 + 10);
+				if (abs(bullet.getY() - tankRight.getY()) < 100 && abs(bullet.getX() - tankRight.GetX()) < 50) tankRight.DecreaseHP(rand() % 5 + 10);
 			}
 
 			bulletHitGround(po);
