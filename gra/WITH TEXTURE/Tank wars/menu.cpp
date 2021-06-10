@@ -4,20 +4,20 @@ Menu::Menu(RenderWindow* window) {
 	this->window = window;
 	this->mousePos = Mouse::getPosition(*window);
 
-	this->cursorMenuT.loadFromFile("textures/cursor.png");
+	this->cursorMenuT.loadFromFile("textures/menu/cursor.png");
 	this->cursorMenu.setSize(Vector2f(50, 50));
 	this->cursorMenu.setOrigin(25, 25);
 	this->cursorMenu.setPosition(640, 370);
 	this->cursorMenu.setTexture(&cursorMenuT);
 
-	this->bannerTexture.loadFromFile("textures/banner.png");
-	this->backgroundTexture.loadFromFile("textures/background-menu.png");
+	this->bannerTexture.loadFromFile("textures/menu/banner.png");
+	this->backgroundTexture.loadFromFile("textures/menu/background-menu.png");
 
 	this->banner.setSize(Vector2f(1280, 720));
 	this->banner.setPosition(0, 0);
 	this->banner.setTexture(&bannerTexture);
 	
-	this->infoT.loadFromFile("textures/game_info.png");
+	this->infoT.loadFromFile("textures/menu/game_info.png");
 	this->info.setSize(Vector2f(1280, 720));
 	this->info.setPosition(0, 0);
 	this->info.setTexture(&infoT);
@@ -26,14 +26,14 @@ Menu::Menu(RenderWindow* window) {
 	this->background.setPosition(0, 0);
 	this->background.setTexture(&backgroundTexture);
 
-	this->playBtnT.loadFromFile("textures/play.png");
-	this->infoBtnT.loadFromFile("textures/info.png");
-	this->quitBtnT.loadFromFile("textures/quit.png");
-	this->menuBtnT.loadFromFile("textures/menu.png");
-	this->playBtnTHover.loadFromFile("textures/playH.png");
-	this->infoBtnTHover.loadFromFile("textures/infoH.png");
-	this->quitBtnTHover.loadFromFile("textures/quitH.png");
-	this->menuBtnTHover.loadFromFile("textures/menuH.png");
+	this->playBtnT.loadFromFile("textures/menu/play.png");
+	this->infoBtnT.loadFromFile("textures/menu/info.png");
+	this->quitBtnT.loadFromFile("textures/menu/quit.png");
+	this->menuBtnT.loadFromFile("textures/menu/menu.png");
+	this->playBtnTHover.loadFromFile("textures/menu/playH.png");
+	this->infoBtnTHover.loadFromFile("textures/menu/infoH.png");
+	this->quitBtnTHover.loadFromFile("textures/menu/quitH.png");
+	this->menuBtnTHover.loadFromFile("textures/menu/menuH.png");
 
 	this->playButton.setSize(Vector2f(268, 94));
 	this->playButton.setOrigin(134, 0);
@@ -53,7 +53,7 @@ Menu::Menu(RenderWindow* window) {
 	this->menuButton.setTexture(&menuBtnT);
 
 
-	this->endingT.loadFromFile("textures/theend.png");
+	this->endingT.loadFromFile("textures/menu/theend.png");
 	this->ending.setSize(Vector2f(1280,720));
 	this->ending.setPosition(0, 0);
 	this->ending.setTexture(&endingT);

@@ -22,7 +22,7 @@ Game::Game(RenderWindow* window) {
 
 	this->arrowTexture.loadFromFile("textures/arrow.png");
 	this->arrowTexture.setSmooth(true);								// ??? IDK IF NEEDED
-	this->surfaceTexture.loadFromFile("textures/grass1.jpg");
+	this->surfaceTexture.loadFromFile("textures/stone.png");
 	this->tankTexture1a.loadFromFile("textures/tanks/tank2a.png");
 	this->tankTexture1b.loadFromFile("textures/tanks/tank2b.png");
 	this->tankLeftHPT.loadFromFile("textures/HP-L.png");
@@ -69,7 +69,6 @@ Game::Game(RenderWindow* window) {
 	this->leftHP.setOrigin(leftHP.getLocalBounds().width/2, 0);
 	this->leftHP.setPosition(177, 34);
 
-	this->font.loadFromFile("textures/Chalkduster400.ttf");
 	this->rightHP.setFont(font);
 	this->rightHP.setCharacterSize(45);
 	this->rightHP.setFillColor(Color::Black);
@@ -81,7 +80,7 @@ Game::Game(RenderWindow* window) {
 	// PROPER BULLET PLACEMENT AT THE START
 	if (this->whoHasMove == 0) bullet.setX(140);
 	else bullet.setX(1130);
-	this->endingT.loadFromFile("textures/theend.png");
+	this->endingT.loadFromFile("textures/menu/theend.png");
 	this->ending.setSize(Vector2f(1280, 720));
 	this->ending.setPosition(0, 0);
 	this->ending.setTexture(&endingT);
@@ -92,7 +91,7 @@ Game::Game(RenderWindow* window) {
 
 	string str = "";
 	int count = 0;
-	ifstream file("maps/map_5.txt");
+	ifstream file("maps/map_6.txt");
 	if (file.good()) {
 		while (!file.eof()) {
 			file >> str;
@@ -112,9 +111,9 @@ void Game::run() {
 
 		if (endingOpen) {
 			if (this->winEvent.type == Event::Closed || Keyboard::isKeyPressed(Keyboard::Escape)) {
-				//window->draw(ending);
-				//window->display();
-				//this_thread::sleep_for(chrono::milliseconds(1500));
+				window->draw(ending);
+				window->display();
+				this_thread::sleep_for(chrono::milliseconds(2000));
 				
 				window->close();
 			
@@ -134,7 +133,7 @@ void Game::run() {
 			for (int i = 0; i < 160; i++) {
 				ground.setSize(Vector2f(8, map[i]));
 				ground.setPosition(i * 8, 720 - map[i]);
-				ground.setTextureRect(IntRect(i * 8, 600 - map[i], 8, map[i]));
+				ground.setTextureRect(IntRect(i * 8, 720 - map[i], 8, map[i]));
 				window->draw(ground);
 			}
 			position1 = Vector2f(bullet.getX() + (bullet.getR() / 2), bullet.getY() + (bullet.getR() / 2));
