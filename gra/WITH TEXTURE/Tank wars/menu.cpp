@@ -191,6 +191,14 @@ void Menu::choose(int mX, int mY) {
 			cout << "\nBACK TO MENU";
 			creditsOpen = false;
 			menuOpen = true;
+			window->draw(background);
+			window->draw(banner);
+			window->draw(playButton);
+			window->draw(infoButton);
+			window->draw(quitButton);
+			window->draw(cursorMenu);
+			window->display();
+			this_thread::sleep_for(chrono::milliseconds(500));
 		}
 	}
 	
