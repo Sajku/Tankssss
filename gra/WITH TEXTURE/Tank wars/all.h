@@ -6,6 +6,7 @@
 #include <fstream>
 #include <chrono>
 #include <thread>
+#include <random>
 #include <SFML\Graphics.hpp>
 #include "tank.h"
 #include "explosion.h"

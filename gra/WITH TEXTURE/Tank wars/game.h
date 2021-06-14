@@ -45,6 +45,8 @@ private:
 	Texture surfaceTexture;
 	Texture tankTexture1a;
 	Texture tankTexture1b;
+	Texture tankTexture2a;
+	Texture tankTexture2b;
 	Texture tankLeftHPT;
 	Texture tankRightHPT;
 	Texture explosionTexture;
@@ -58,7 +60,7 @@ private:
 	RectangleShape background;
 	RectangleShape arrow;
 	Tank tankLeft = Tank(150, 550, Vector2f(100, 55), 100, 10, true, &tankTexture1a, &tankTexture1b);
-	Tank tankRight = Tank(1130, 550, Vector2f(100, 55), 100, 10, false, &tankTexture1a, &tankTexture1b);
+	Tank tankRight = Tank(1130, 550, Vector2f(100, 55), 100, 10, false, &tankTexture2a, &tankTexture2b);
 	RectangleShape tankLeftHP;
 	RectangleShape tankRightHP;
 	

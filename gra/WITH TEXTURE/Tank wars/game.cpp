@@ -1,5 +1,13 @@
 #include "all.h"
 
+// RANDOM NUMBERS GENERATOR
+int randomNum(int min, int max) {
+	random_device device;
+	mt19937 generator(device());
+	uniform_int_distribution <int> numer(min, max);
+	return numer(generator);
+}
+
 Game::Game(RenderWindow* window) {
 
 	// =============== VARIABLES SETTING ===============
@@ -17,17 +25,74 @@ Game::Game(RenderWindow* window) {
 	this->whoHasMove = random1;
 	this->endingOpen = false;
 
+
+
 	// =============== SFML ELEMENTS SETTING ===============
 	// =============== TEXTURES LOADING ===============
 
 	this->arrowTexture.loadFromFile("textures/arrow.png");
-	this->arrowTexture.setSmooth(true);								// ??? IDK IF NEEDED
-	this->surfaceTexture.loadFromFile("textures/stone.png");
-	this->tankTexture1a.loadFromFile("textures/tanks/tank2a.png");
-	this->tankTexture1b.loadFromFile("textures/tanks/tank2b.png");
+	this->arrowTexture.setSmooth(true);		
+
+	switch (randomNum(0, 2)) {
+	case 0:
+		this->surfaceTexture.loadFromFile("textures/stone.png");
+		break;
+	case 1:
+		this->surfaceTexture.loadFromFile("textures/sand.png");
+		break;
+	case 2:
+		this->surfaceTexture.loadFromFile("textures/grass.png");
+		break;
+	}
+
+	int colorTank1 = randomNum(1, 4);
+	int colorTank2{};
+	do {
+		colorTank2 = randomNum(1, 4);
+	} while (colorTank1 == colorTank2);
+
+	switch (colorTank1) {
+	case 1:
+		this->tankTexture1a.loadFromFile("textures/tanks/tank1a.png");
+		this->tankTexture1b.loadFromFile("textures/tanks/tank1b.png");
+		break;
+	case 2:
+		this->tankTexture1a.loadFromFile("textures/tanks/tank2a.png");
+		this->tankTexture1b.loadFromFile("textures/tanks/tank2b.png");
+		break;
+	case 3:
+		this->tankTexture1a.loadFromFile("textures/tanks/tank3a.png");
+		this->tankTexture1b.loadFromFile("textures/tanks/tank3b.png");
+		break;
+	case 4:
+		this->tankTexture1a.loadFromFile("textures/tanks/tank4a.png");
+		this->tankTexture1b.loadFromFile("textures/tanks/tank4b.png");
+		break;
+	}
+
+	switch (colorTank2) {
+	case 1:
+		this->tankTexture2a.loadFromFile("textures/tanks/tank1a.png");
+		this->tankTexture2b.loadFromFile("textures/tanks/tank1b.png");
+		break;
+	case 2:
+		this->tankTexture2a.loadFromFile("textures/tanks/tank2a.png");
+		this->tankTexture2b.loadFromFile("textures/tanks/tank2b.png");
+		break;
+	case 3:
+		this->tankTexture2a.loadFromFile("textures/tanks/tank3a.png");
+		this->tankTexture2b.loadFromFile("textures/tanks/tank3b.png");
+		break;
+	case 4:
+		this->tankTexture2a.loadFromFile("textures/tanks/tank4a.png");
+		this->tankTexture2b.loadFromFile("textures/tanks/tank4b.png");
+		break;
+	}
+
+
+	this->explosionTexture.loadFromFile("textures/explosion1.png");
 	this->tankLeftHPT.loadFromFile("textures/HP-L.png");
 	this->tankRightHPT.loadFromFile("textures/HP-R.png");
-	this->explosionTexture.loadFromFile("textures/explosion1.png");
 	this->bulletTexture.loadFromFile("textures/bullet1.png");
 	this->backgroundTexture.loadFromFile("textures/background.png");
 
@@ -43,13 +108,13 @@ Game::Game(RenderWindow* window) {
 	// =============== GAME ELEMENTS ===============
 
 	this->ground.setSize(Vector2f(8, 360));
-	this->background.setSize(Vector2f(1280,720));
+	this->background.setSize(Vector2f(1280, 720));
 	this->background.setTexture(&backgroundTexture);
-	this->background.setPosition(0,0);
+	this->background.setPosition(0, 0);
 	this->arrow.setSize(Vector2f(86, 44));
 	this->arrow.setOrigin(84, 22);
 	this->arrow.setTexture(&arrowTexture);
-	this->ground.setTexture(&surfaceTexture);	
+	this->ground.setTexture(&surfaceTexture);
 	this->tankLeftHP.setSize(Vector2f(210, 73));
 	this->tankLeftHP.setPosition(25, 25);
 	this->tankLeftHP.setTexture(&tankLeftHPT);
@@ -57,7 +122,7 @@ Game::Game(RenderWindow* window) {
 	this->tankRightHP.setOrigin(210, 0);
 	this->tankRightHP.setPosition(1255, 25);
 	this->tankRightHP.setTexture(&tankRightHPT);
-	this->explosion = Explosion(&explosionTexture);	
+	this->explosion = Explosion(&explosionTexture);
 	this->bullet = Bullet(140, 580, 13, &bulletTexture);
 
 	this->font.loadFromFile("textures/Chalkduster400.ttf");
@@ -66,7 +131,7 @@ Game::Game(RenderWindow* window) {
 	this->leftHP.setFillColor(Color::Black);
 	this->leftHP.setStyle(Text::Bold);
 	this->leftHP.setString("100");
-	this->leftHP.setOrigin(leftHP.getLocalBounds().width/2, 0);
+	this->leftHP.setOrigin(leftHP.getLocalBounds().width / 2, 0);
 	this->leftHP.setPosition(177, 34);
 
 	this->rightHP.setFont(font);
@@ -86,12 +151,14 @@ Game::Game(RenderWindow* window) {
 	this->ending.setTexture(&endingT);
 
 	// =============== MAP RANDOM CHOOSING AND LOADING FROM FILE ===============
-	// TO DO -------------------------------------------------------------------------------------------------------------------------------------------
+
 	// RANDOM MAP CHOOSING
 
+	string mapa[6] = { "maps/map_2.txt", "maps/map_3.txt", "maps/map_4.txt", "maps/map_5.txt", "maps/map_6.txt", "maps/map_7.txt" };
+	int mapNumber = randomNum(0, 5);
 	string str = "";
 	int count = 0;
-	ifstream file("maps/map_6.txt");
+	ifstream file(mapa[mapNumber]);
 	if (file.good()) {
 		while (!file.eof()) {
 			file >> str;
@@ -114,9 +181,9 @@ void Game::run() {
 				window->draw(ending);
 				window->display();
 				this_thread::sleep_for(chrono::milliseconds(2000));
-				
+
 				window->close();
-			
+
 			}
 		}
 		else {
@@ -202,7 +269,7 @@ double Game::findAngle(Bullet bullet, Vector2i mousePos)
 }
 
 void Game::bulletInAir() {
-	
+
 	// PROCESSING BULLET DURING SHOT
 	bullet.removeOpacity();
 	time += 0.1;
@@ -221,9 +288,9 @@ void Game::bulletInAir() {
 
 		// BULLET COLLISION DETECTION
 		if (map[stripeNumber] >= (720 - bullet.getY())) {
-			
+
 			if (whoHasMove % 2 == 0)
-			{ 
+			{
 				//lewy czo³g obrywa xd
 				if (abs(bullet.getY() - tankLeft.getY()) < 100 && abs(bullet.getX() - tankLeft.GetX() < 50)) tankLeft.DecreaseHP(rand() % 5 + 10);
 			}
@@ -289,7 +356,7 @@ void Game::bulletHitGround(Pos po) {
 	time = 0;
 
 	// A BULLET PLACEMENT IN A PROPER TANK AFTER EXPLOSION
-	
+
 	if (whoHasMove % 2 == 0) {
 		bullet.setX(150);
 		bullet.setY(720 - map[18] - 20);
