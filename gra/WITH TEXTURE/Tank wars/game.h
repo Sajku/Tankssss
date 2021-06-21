@@ -6,7 +6,6 @@ public:
 	Game(RenderWindow* window);
 	virtual ~Game();
 
-	void init();
 	void run();
 
 	double findAngle(Bullet bullet, Vector2i mousePos);
@@ -27,6 +26,7 @@ private:
 	double currentAngle;
 	int whoHasMove;
 	bool endingOpen;
+	bool end;
 
 	Vector2f position1;
 	Vector2f position2;
@@ -45,16 +45,21 @@ private:
 	Texture surfaceTexture;
 	Texture tankTexture1a;
 	Texture tankTexture1b;
+	Texture destroyedTankTexture1;
+	Texture destroyedTankTexture2;
 	Texture tankTexture2a;
 	Texture tankTexture2b;
 	Texture tankLeftHPT;
 	Texture tankRightHPT;
 	Texture explosionTexture;
+	Texture endingExplosionTexture;
 	Texture bulletTexture;
 	Texture backgroundTexture;
+	Texture winTexture;
 
 	Texture endingT;
 	RectangleShape ending;
+	RectangleShape win;
 
 	RectangleShape ground;
 	RectangleShape background;
@@ -64,7 +69,8 @@ private:
 	RectangleShape tankLeftHP;
 	RectangleShape tankRightHP;
 	
-	Explosion explosion = Explosion(&explosionTexture);
+	Explosion explosion = Explosion(&explosionTexture, false);
+	Explosion endingExplosion = Explosion(&endingExplosionTexture, true);
 	Bullet bullet = Bullet(140, 580, 13, &bulletTexture);
 
 };

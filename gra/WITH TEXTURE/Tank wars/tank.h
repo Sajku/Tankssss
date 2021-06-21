@@ -14,9 +14,12 @@ public:
 	void Update(int newX);
 	void updateGun(double angle);
 	int getY();
-	string getHP();
+	int getHP();
+	string getHPString();
 	void DecreaseHP(int damage);
 	int GetX();
+	void updateTexture(Texture* newTexture);
+
 private:
 	int posX;
 	int posY;

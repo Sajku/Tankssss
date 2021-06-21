@@ -5,8 +5,7 @@ using namespace sf;
 
 class Explosion {
 public:
-	Explosion();
-	Explosion(Texture* texture);
+	Explosion(Texture* texture, bool end);
 	~Explosion();
 
 	void Draw(RenderWindow& window);
@@ -14,7 +13,8 @@ public:
 	void Update();
 
 private:
-	int step;
+	bool ending;
+	float step;
 	RectangleShape body;
 };
 

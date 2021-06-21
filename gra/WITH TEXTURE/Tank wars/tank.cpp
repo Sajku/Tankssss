@@ -54,16 +54,25 @@ int Tank::getY() {
 	return posY;
 }
 
-string Tank::getHP() {
+int Tank::getHP() {
+	return health;
+}
+
+string Tank::getHPString() {
 	return to_string(health);
 }
 
 void Tank::DecreaseHP(int damage)
 {
 	health = health - damage;
+	if (health <= 0) health = 0;
 }
 
-int Tank::GetX()
-{
+int Tank::GetX(){
 	return posX;
+}
+
+void Tank::updateTexture(Texture* newTexture) {
+	this->body.setTexture(newTexture);
+	this->gun.setFillColor(sf::Color(255, 255, 255, 0));
 }

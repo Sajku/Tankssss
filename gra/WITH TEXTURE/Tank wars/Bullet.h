@@ -21,15 +21,9 @@ public:
 	void UpdateY(int y);
 	void Draw(RenderWindow& window);
 	Pos ballPath(double startX, double startY, double power, double ang, double time);
-	double getX() {
-		return x;
-	}
-	double getY() {
-		return y;
-	}
-	double getR() {
-		return radius;
-	}
+	double getX();
+	double getY();
+	double getR();
 
 	void setX(double x) {
 		this->x = x;

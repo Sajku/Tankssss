@@ -47,3 +47,15 @@ Pos Bullet::ballPath(double startX, double startY, double power, double ang, dou
 
 	return result;
 }
+
+double Bullet::getX() {
+	return this->x;
+}
+
+double Bullet::getY() {
+	return this->y;
+}
+
+double Bullet::getR() {
+	return this->radius;
+}

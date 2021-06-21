@@ -24,6 +24,7 @@ Game::Game(RenderWindow* window) {
 	random1 = rand() % 2;
 	this->whoHasMove = random1;
 	this->endingOpen = false;
+	this->end = false;
 
 
 
@@ -55,18 +56,22 @@ Game::Game(RenderWindow* window) {
 	case 1:
 		this->tankTexture1a.loadFromFile("textures/tanks/tank1a.png");
 		this->tankTexture1b.loadFromFile("textures/tanks/tank1b.png");
+		this->destroyedTankTexture1.loadFromFile("textures/tanks/destroyed1.png");
 		break;
 	case 2:
 		this->tankTexture1a.loadFromFile("textures/tanks/tank2a.png");
 		this->tankTexture1b.loadFromFile("textures/tanks/tank2b.png");
+		this->destroyedTankTexture1.loadFromFile("textures/tanks/destroyed2.png");
 		break;
 	case 3:
 		this->tankTexture1a.loadFromFile("textures/tanks/tank3a.png");
 		this->tankTexture1b.loadFromFile("textures/tanks/tank3b.png");
+		this->destroyedTankTexture1.loadFromFile("textures/tanks/destroyed3.png");
 		break;
 	case 4:
 		this->tankTexture1a.loadFromFile("textures/tanks/tank4a.png");
 		this->tankTexture1b.loadFromFile("textures/tanks/tank4b.png");
+		this->destroyedTankTexture1.loadFromFile("textures/tanks/destroyed4.png");
 		break;
 	}
 
@@ -74,23 +79,28 @@ Game::Game(RenderWindow* window) {
 	case 1:
 		this->tankTexture2a.loadFromFile("textures/tanks/tank1a.png");
 		this->tankTexture2b.loadFromFile("textures/tanks/tank1b.png");
+		this->destroyedTankTexture2.loadFromFile("textures/tanks/destroyed1.png");
 		break;
 	case 2:
 		this->tankTexture2a.loadFromFile("textures/tanks/tank2a.png");
 		this->tankTexture2b.loadFromFile("textures/tanks/tank2b.png");
+		this->destroyedTankTexture2.loadFromFile("textures/tanks/destroyed2.png");
 		break;
 	case 3:
 		this->tankTexture2a.loadFromFile("textures/tanks/tank3a.png");
 		this->tankTexture2b.loadFromFile("textures/tanks/tank3b.png");
+		this->destroyedTankTexture2.loadFromFile("textures/tanks/destroyed3.png");
 		break;
 	case 4:
 		this->tankTexture2a.loadFromFile("textures/tanks/tank4a.png");
 		this->tankTexture2b.loadFromFile("textures/tanks/tank4b.png");
+		this->destroyedTankTexture2.loadFromFile("textures/tanks/destroyed4.png");
 		break;
 	}
 
 
 	this->explosionTexture.loadFromFile("textures/explosion1.png");
+	this->endingExplosionTexture.loadFromFile("textures/explosionEND.png");
 	this->tankLeftHPT.loadFromFile("textures/HP-L.png");
 	this->tankRightHPT.loadFromFile("textures/HP-R.png");
 	this->bulletTexture.loadFromFile("textures/bullet1.png");
@@ -122,7 +132,6 @@ Game::Game(RenderWindow* window) {
 	this->tankRightHP.setOrigin(210, 0);
 	this->tankRightHP.setPosition(1255, 25);
 	this->tankRightHP.setTexture(&tankRightHPT);
-	this->explosion = Explosion(&explosionTexture);
 	this->bullet = Bullet(140, 580, 13, &bulletTexture);
 
 	this->font.loadFromFile("textures/Chalkduster400.ttf");
@@ -149,6 +158,11 @@ Game::Game(RenderWindow* window) {
 	this->ending.setSize(Vector2f(1280, 720));
 	this->ending.setPosition(0, 0);
 	this->ending.setTexture(&endingT);
+
+	this->winTexture.loadFromFile("textures/win_1.png");
+	this->win.setSize(Vector2f(1280, 720));
+	this->win.setPosition(0, 0);
+	this->win.setTexture(&winTexture);
 
 	// =============== MAP RANDOM CHOOSING AND LOADING FROM FILE ===============
 
@@ -208,15 +222,17 @@ void Game::run() {
 
 
 			// SHOOTING LISTENER
-			if (Mouse::isButtonPressed(Mouse::Left)) {
-				if (position2.x >= 0 && position2.x <= 1280 && position2.y >= 0 && position2.y <= 720) {
-					if (!shoot) {
-						x = bullet.getX();
-						y = bullet.getY();
-						shoot = true;
-						power = sqrt(pow((position2.y - position1.y), 2) + pow((position2.x - position1.x), 2)) / 8;
-						angle = findAngle(bullet, mousePos);
-						whoHasMove++;
+			if (!end) {
+				if (Mouse::isButtonPressed(Mouse::Left)) {
+					if (position2.x >= 0 && position2.x <= 1280 && position2.y >= 0 && position2.y <= 720) {
+						if (!shoot) {
+							x = bullet.getX();
+							y = bullet.getY();
+							shoot = true;
+							power = sqrt(pow((position2.y - position1.y), 2) + pow((position2.x - position1.x), 2)) / 8;
+							angle = findAngle(bullet, mousePos);
+							whoHasMove++;
+						}
 					}
 				}
 			}
@@ -225,22 +241,31 @@ void Game::run() {
 				bulletInAir();
 			}
 			else {
-				bulletInTank();
+				if (!end) bulletInTank();
 			}
 
 			// GAME ELEMENT DRAWING
 			bullet.Draw(*window);
-			explosion.Draw(*window);
+			
 			tankLeft.Update(720 - map[18] - 25);
 			tankRight.Update(720 - map[141] - 25);
-			leftHP.setString(tankLeft.getHP());
-			rightHP.setString(tankRight.getHP());
-			window->draw(tankLeftHP);
-			window->draw(tankRightHP);
-			window->draw(leftHP);
-			window->draw(rightHP);
+
 			tankLeft.Draw(*window);
 			tankRight.Draw(*window);
+			if (!end) {
+				leftHP.setString(tankLeft.getHPString());
+				rightHP.setString(tankRight.getHPString());
+				window->draw(tankLeftHP);
+				window->draw(tankRightHP);
+				window->draw(leftHP);
+				window->draw(rightHP);
+			}
+			else {
+				window->draw(win);
+			}
+			
+			explosion.Draw(*window);
+			endingExplosion.Draw(*window);
 			//window.draw(explosion1);
 			this->window->display();
 		}
@@ -291,16 +316,15 @@ void Game::bulletInAir() {
 
 			if (whoHasMove % 2 == 0)
 			{
-				//lewy czo³g obrywa xd
+				// LEFT TANK COLLISION
 				if (abs(bullet.getY() - tankLeft.getY()) < 100 && abs(bullet.getX() - tankLeft.GetX() < 50)) tankLeft.DecreaseHP(rand() % 5 + 10);
 			}
 			if (whoHasMove % 2 == 1)
 			{
-				//prawy czo³g obrywa xd
+				// RIGHT TANK COLLISION
 				if (abs(bullet.getY() - tankRight.getY()) < 100 && abs(bullet.getX() - tankRight.GetX()) < 50) tankRight.DecreaseHP(rand() % 5 + 10);
 			}
-
-			bulletHitGround(po);
+			if (!end) bulletHitGround(po);
 		}
 
 	}
@@ -319,7 +343,7 @@ void Game::bulletInTank() {
 	// ARROW AND TANKS GUN ROTATION BEFORE SHOT
 	mousePos = Mouse::getPosition(*window);
 	currentAngle = findAngle(bullet, mousePos) * -57.2957795;
-	cout << currentAngle << endl;
+	// cout << currentAngle << endl;
 	if (whoHasMove % 2 == 0) tankLeft.updateGun(currentAngle);
 	else tankRight.updateGun(currentAngle);
 
@@ -336,38 +360,68 @@ void Game::bulletInTank() {
 	arrow.setPosition(Vector2f(mousePos.x, mousePos.y));
 	arrow.setRotation(currentAngle);
 
-	this->window->draw(arrow);
+	if (!end) this->window->draw(arrow);
 }
 
 void Game::bulletHitGround(Pos po) {
 
 	// MAKING A HOLE IN A GROUND, ON BULLET COLLISION WITH GROUND
-
 	holeMaker();
 
-	// EXPLOSION ANIMATION
-	if (po.y - 50 < 720)
-		explosion.boom(po.x - 50, po.y - 50);
-	else
-		explosion.boom(po.x - 50, 680);
+	// ENDING SHOT
+	if (tankLeft.getHP() <= 0 || tankRight.getHP() <= 0) {
+		if (tankRight.getHP() <= 0) {
+			this->winTexture.loadFromFile("texture/win_2.png");
+			this->tankRight.updateTexture(&destroyedTankTexture2);
+		}
+		else {
+			this->tankLeft.updateTexture(&destroyedTankTexture2);
+		}
 
-	cout << "\nCollision";
-	shoot = false;
-	time = 0;
+		win.setTexture(&winTexture);
+		end = true;
+		endingExplosion.boom(0, 0);
 
-	// A BULLET PLACEMENT IN A PROPER TANK AFTER EXPLOSION
-
-	if (whoHasMove % 2 == 0) {
-		bullet.setX(150);
-		bullet.setY(720 - map[18] - 20);
-		//tankRight.updateGun(180);
+		cout << "\nCollision";
+		shoot = false;
+		time = 0;
+		if (whoHasMove % 2 == 0) {
+			bullet.setX(150);
+			bullet.setY(720 - map[18] - 20);
+			//tankRight.updateGun(180);
+		}
+		else {
+			bullet.setX(1130);
+			bullet.setY(720 - map[141] - 20);
+			//tankLeft.updateGun(0);
+		}
+		bullet.Update();
 	}
 	else {
-		bullet.setX(1130);
-		bullet.setY(720 - map[141] - 20);
-		//tankLeft.updateGun(0);
+		// EXPLOSION ANIMATION
+		if (po.y - 50 < 720)
+			explosion.boom(po.x - 50, po.y - 50);
+		else
+			explosion.boom(po.x - 50, 680);
+
+		cout << "\nCollision";
+		shoot = false;
+		time = 0;
+
+		// A BULLET PLACEMENT IN A PROPER TANK AFTER EXPLOSION
+		if (whoHasMove % 2 == 0) {
+			bullet.setX(150);
+			bullet.setY(720 - map[18] - 20);
+			//tankRight.updateGun(180);
+		}
+		else {
+			bullet.setX(1130);
+			bullet.setY(720 - map[141] - 20);
+			//tankLeft.updateGun(0);
+		}
+		bullet.Update();
 	}
-	bullet.Update();
+	
 }
 
 void Game::holeMaker() {
