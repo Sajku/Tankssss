@@ -7,6 +7,8 @@
 #include <chrono>
 #include <thread>
 #include <random>
+#include <cmath>
+#include <string>
 #include <SFML\Graphics.hpp>
 #include "tank.h"
 #include "explosion.h"

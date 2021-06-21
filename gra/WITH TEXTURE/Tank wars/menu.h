@@ -4,7 +4,7 @@
 class Menu {
 public:
 	Menu(RenderWindow* window);
-	~Menu();
+	virtual ~Menu() = default;
 	void run();
 	void choose(int mX, int mY);
 

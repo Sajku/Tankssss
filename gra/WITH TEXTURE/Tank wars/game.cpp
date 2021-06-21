@@ -183,8 +183,6 @@ Game::Game(RenderWindow* window) {
 
 }
 
-Game::~Game() {}
-
 void Game::run() {
 
 	// MAIN GAME LOOP
@@ -317,7 +315,7 @@ void Game::bulletInAir() {
 			if (whoHasMove % 2 == 0)
 			{
 				// LEFT TANK COLLISION
-				if (abs(bullet.getY() - tankLeft.getY()) < 100 && abs(bullet.getX() - tankLeft.GetX() < 50)) tankLeft.DecreaseHP(rand() % 5 + 10);
+				if (abs(bullet.getY() - tankLeft.getY()) < 100 && abs(bullet.getX() - tankLeft.GetX()) < 50) tankLeft.DecreaseHP(rand() % 5 + 10);
 			}
 			if (whoHasMove % 2 == 1)
 			{

@@ -1,6 +1,4 @@
-#include "Bullet.h"
-#include <cmath>
-#define M_PI 3.14159265358979323846
+#include "all.h"
 
 Bullet::Bullet(double x, double y, double radius, Texture* texture1) {
 	this->x = x;
@@ -12,11 +10,6 @@ Bullet::Bullet(double x, double y, double radius, Texture* texture1) {
 	body.setOrigin(radius / 2, radius / 2);
 	body.setFillColor(Color::Black);
 	body.setTexture(texture1);
-}
-
-Bullet::~Bullet()
-{
-
 }
 
 void Bullet::Update() {
@@ -58,4 +51,28 @@ double Bullet::getY() {
 
 double Bullet::getR() {
 	return this->radius;
+}
+
+void Bullet::setX(double x) {
+	this->x = x;
+}
+
+void Bullet::setY(double y) {
+	this->y = y;
+}
+
+void Bullet::setRotation(double angle) {
+	this->body.setRotation(angle);
+}
+
+void Bullet::addRotation(double angle) {
+	this->body.rotate(angle);
+}
+
+void Bullet::addOpacity() {
+	body.setFillColor(sf::Color(255, 255, 255, 0));
+}
+
+void Bullet::removeOpacity() {
+	body.setFillColor(sf::Color(255, 255, 255, 255));
 }

@@ -4,7 +4,7 @@
 class Game {
 public:
 	Game(RenderWindow* window);
-	virtual ~Game();
+	virtual ~Game() = default;
 
 	void run();
 

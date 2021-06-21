@@ -1,5 +1,4 @@
-#include "tank.h"
-#include <string>
+#include "all.h"
 
 Tank::Tank(int x, int y, Vector2f size, int hp, int dmg, bool side, Texture* texture, Texture* texture2) {
 	this->posX = x;
@@ -13,6 +12,7 @@ Tank::Tank(int x, int y, Vector2f size, int hp, int dmg, bool side, Texture* tex
 	body.setTexture(texture);
 	gun.setSize(Vector2f(43, 6));
 	gun.setTexture(texture2);
+
 	if (!side) {
 		body.setTextureRect(IntRect(100,0,-100,55));
 		gun.setOrigin(43, 3);
@@ -27,14 +27,13 @@ Tank::Tank(int x, int y, Vector2f size, int hp, int dmg, bool side, Texture* tex
 	}
 }
 
-Tank::~Tank() {}
-
 void Tank::Draw(RenderWindow& window) {
 	window.draw(gun);
 	window.draw(body);
 }
 
 void Tank::Update(int newY) {
+	this->posY = newY;
 	if (newY > 695) body.setPosition(posX, 695);
 	else body.setPosition(posX, newY);
 

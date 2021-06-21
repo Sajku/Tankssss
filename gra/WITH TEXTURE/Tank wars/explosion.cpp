@@ -1,4 +1,4 @@
-#include "explosion.h"
+#include "all.h"
 
 Explosion::Explosion(Texture* texture, bool end) {
 	if (!end) {
@@ -16,9 +16,6 @@ Explosion::Explosion(Texture* texture, bool end) {
 	}
 	this->ending = end;
 	this->step = -1;
-}
-
-Explosion::~Explosion() {
 }
 
 void Explosion::Draw(RenderWindow& window) {

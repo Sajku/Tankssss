@@ -1,6 +1,5 @@
 #pragma once
-#include <SFML\Graphics.hpp>
-#include "Bullet.h"
+#include "all.h"
 
 using namespace sf;
 using namespace std;
@@ -13,40 +12,26 @@ struct Pos {
 class Bullet
 {
 public:
-	Bullet();
 	Bullet(double x, double y, double radius, Texture* texture1);
-	~Bullet();
+	virtual ~Bullet() = default;
 
 	void Update();
 	void UpdateY(int y);
 	void Draw(RenderWindow& window);
 	Pos ballPath(double startX, double startY, double power, double ang, double time);
+	
 	double getX();
 	double getY();
 	double getR();
 
-	void setX(double x) {
-		this->x = x;
-	}
-	void setY(double y) {
-		this->y = y;
-	}
+	void setX(double x);
+	void setY(double y);
 
-	void setRotation(double angle) {
-		this->body.setRotation(angle);
-	}
+	void setRotation(double angle);
+	void addRotation(double angle);
 
-	void addRotation(double angle) {
-		this->body.rotate(angle);
-	}
-
-	void addOpacity() {
-		body.setFillColor(sf::Color(255, 255, 255, 0));
-	}
-	
-	void removeOpacity() {
-		body.setFillColor(sf::Color(255, 255, 255, 255));
-	}
+	void addOpacity();
+	void removeOpacity();
 
 private:
 	double x;

@@ -72,8 +72,6 @@ Menu::Menu(RenderWindow* window) {
 	this->endingOpen = false;
 }
 
-Menu::~Menu() {}
-
 void Menu::run() {
 
 	while (this->window->isOpen() && menuOpen) {
