@@ -1,57 +1,17 @@
-﻿  game.cpp
-C:\Users\kiele\source\repos\adsdsadasdasds\WITH TEXTURE\Tank wars\game.cpp(213,37): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
-          with
-          [
-              T=float
-          ]
-C:\Users\kiele\source\repos\adsdsadasdasds\WITH TEXTURE\Tank wars\game.cpp(214,35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\kiele\source\repos\adsdsadasdasds\WITH TEXTURE\Tank wars\game.cpp(214,26): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\kiele\source\repos\adsdsadasdasds\WITH TEXTURE\Tank wars\game.cpp(218,76): warning C4244: 'argument': conversion from 'double' to 'T', possible loss of data
-          with
-          [
-              T=float
-          ]
-C:\Users\kiele\source\repos\adsdsadasdasds\WITH TEXTURE\Tank wars\game.cpp(218,39): warning C4244: 'argument': conversion from 'double' to 'T', possible loss of data
-          with
-          [
-              T=float
-          ]
-C:\Users\kiele\source\repos\adsdsadasdasds\WITH TEXTURE\Tank wars\game.cpp(219,45): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
-          with
-          [
-              T=int
-          ]
-          and
-          [
-              T=float
-          ]
-C:\Users\kiele\source\repos\adsdsadasdasds\WITH TEXTURE\Tank wars\game.cpp(219,33): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
-          with
-          [
-              T=int
-          ]
-          and
-          [
-              T=float
-          ]
-C:\Users\kiele\source\repos\adsdsadasdasds\WITH TEXTURE\Tank wars\game.cpp(307,22): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\kiele\source\repos\adsdsadasdasds\WITH TEXTURE\Tank wars\game.cpp(358,49): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
-          with
-          [
-              T=int
-          ]
-          and
-          [
-              T=float
-          ]
-C:\Users\kiele\source\repos\adsdsadasdasds\WITH TEXTURE\Tank wars\game.cpp(358,37): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
-          with
-          [
-              T=int
-          ]
-          and
-          [
-              T=float
-          ]
-C:\Users\kiele\source\repos\adsdsadasdasds\WITH TEXTURE\Tank wars\game.cpp(359,20): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+﻿  tank.cpp
+C:\Users\kiele\source\repos\adsdsadasdasds\WITH TEXTURE\Tank wars\tank.cpp(9,21): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\kiele\source\repos\adsdsadasdasds\WITH TEXTURE\Tank wars\tank.cpp(9,19): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\kiele\source\repos\adsdsadasdasds\WITH TEXTURE\Tank wars\tank.cpp(20,28): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\kiele\source\repos\adsdsadasdasds\WITH TEXTURE\Tank wars\tank.cpp(20,21): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\kiele\source\repos\adsdsadasdasds\WITH TEXTURE\Tank wars\tank.cpp(26,28): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\kiele\source\repos\adsdsadasdasds\WITH TEXTURE\Tank wars\tank.cpp(26,21): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\kiele\source\repos\adsdsadasdasds\WITH TEXTURE\Tank wars\tank.cpp(37,35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\kiele\source\repos\adsdsadasdasds\WITH TEXTURE\Tank wars\tank.cpp(38,30): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\kiele\source\repos\adsdsadasdasds\WITH TEXTURE\Tank wars\tank.cpp(38,24): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\kiele\source\repos\adsdsadasdasds\WITH TEXTURE\Tank wars\tank.cpp(40,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\kiele\source\repos\adsdsadasdasds\WITH TEXTURE\Tank wars\tank.cpp(40,35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\kiele\source\repos\adsdsadasdasds\WITH TEXTURE\Tank wars\tank.cpp(41,37): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\kiele\source\repos\adsdsadasdasds\WITH TEXTURE\Tank wars\tank.cpp(41,28): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\kiele\source\repos\adsdsadasdasds\WITH TEXTURE\Tank wars\tank.cpp(45,30): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\kiele\source\repos\adsdsadasdasds\WITH TEXTURE\Tank wars\tank.cpp(48,19): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
   Tank wars.vcxproj -> C:\Users\kiele\source\repos\adsdsadasdasds\WITH TEXTURE\Debug\Tank wars.exe

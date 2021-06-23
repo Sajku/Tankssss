@@ -368,12 +368,13 @@ void Game::bulletHitGround(Pos po) {
 
 	// ENDING SHOT
 	if (tankLeft.getHP() <= 0 || tankRight.getHP() <= 0) {
-		if (tankRight.getHP() <= 0) {
-			this->winTexture.loadFromFile("texture/win_2.png");
-			this->tankRight.updateTexture(&destroyedTankTexture2);
+		if (tankLeft.getHP() <= 0) {
+			this->winTexture.loadFromFile("textures/win_2.png");
+			this->win.setTexture(&winTexture);
+			this->tankLeft.updateTexture(&destroyedTankTexture1);
 		}
 		else {
-			this->tankLeft.updateTexture(&destroyedTankTexture2);
+			this->tankRight.updateTexture(&destroyedTankTexture2);
 		}
 
 		win.setTexture(&winTexture);
